@@ -1,0 +1,144 @@
+<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+  <div class="mb-6 flex justify-between items-center">
+    <%= link_to admin_users_path, class: "inline-flex items-center text-blue-600 hover:text-blue-800" do %>
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+      Volver a usuarios
+    <% end %>
+
+    <div class="flex space-x-3">
+      <%= link_to edit_admin_user_path(@user), class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" do %>
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+        </svg>
+        Editar
+      <% end %>
+
+      <%= button_to admin_user_path(@user), method: :delete, data: { turbo_confirm: "¿Estás seguro de eliminar este usuario?" }, class: "inline-flex items-center px-4 py-2 border border-red-300 rounded-md shadow-sm text-sm font-medium text-red-700 bg-white hover:bg-red-50" do %>
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+        </svg>
+        Eliminar
+      <% end %>
+    </div>
+  </div>
+
+  <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+    <!-- Encabezado del perfil -->
+    <div class="px-6 py-8 bg-gradient-to-r from-blue-500 to-blue-600">
+      <div class="flex items-center space-x-6">
+        <div class="h-24 w-24 rounded-full bg-white flex items-center justify-center text-3xl font-bold text-blue-600">
+          <%= @user.employee&.first_name&.first&.upcase || @user.email.first.upcase %>
+        </div>
+        <div class="text-white">
+          <h1 class="text-3xl font-bold"><%= @user.display_name %></h1>
+          <p class="text-blue-100 text-lg"><%= @user.email %></p>
+          <div class="mt-2">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-800 text-blue-100">
+              <%= @user.role.titleize %>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Información del usuario -->
+    <div class="px-6 py-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Información básica -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Información Básica</h2>
+          <dl class="space-y-3">
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Email</dt>
+              <dd class="mt-1 text-sm text-gray-900"><%= @user.email %></dd>
+            </div>
+            
+            <% if @user.employee %>
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Nombre completo</dt>
+                <dd class="mt-1 text-sm text-gray-900"><%= @user.employee.full_name %></dd>
+              </div>
+
+              <% if @user.employee.phone %>
+                <div>
+                  <dt class="text-sm font-medium text-gray-500">Teléfono</dt>
+                  <dd class="mt-1 text-sm text-gray-900"><%= @user.employee.phone %></dd>
+                </div>
+              <% end %>
+
+              <% if @user.employee.birth_date %>
+                <div>
+                  <dt class="text-sm font-medium text-gray-500">Fecha de nacimiento</dt>
+                  <dd class="mt-1 text-sm text-gray-900"><%= l(@user.employee.birth_date, format: :long) %></dd>
+                </div>
+              <% end %>
+            <% end %>
+
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Creado</dt>
+              <dd class="mt-1 text-sm text-gray-900"><%= l(@user.created_at, format: :long) %></dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- Información laboral -->
+        <% if @user.employee %>
+          <div>
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">Información Laboral</h2>
+            <dl class="space-y-3">
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Número de empleado</dt>
+                <dd class="mt-1 text-sm text-gray-900"><%= @user.employee.employee_number %></dd>
+              </div>
+
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Departamento</dt>
+                <dd class="mt-1 text-sm text-gray-900"><%= @user.employee.department.name %></dd>
+              </div>
+
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Puesto</dt>
+                <dd class="mt-1 text-sm text-gray-900"><%= @user.employee.position.title %></dd>
+              </div>
+
+              <% if @user.employee.manager %>
+                <div>
+                  <dt class="text-sm font-medium text-gray-500">Supervisor</dt>
+                  <dd class="mt-1 text-sm text-gray-900"><%= @user.employee.manager.full_name %></dd>
+                </div>
+              <% end %>
+
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Fecha de contratación</dt>
+                <dd class="mt-1 text-sm text-gray-900"><%= l(@user.employee.hire_date, format: :long) %></dd>
+              </div>
+
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Años de servicio</dt>
+                <dd class="mt-1 text-sm text-gray-900">
+                  <%= @user.employee.years_of_service %> <%= @user.employee.years_of_service == 1 ? 'año' : 'años' %>
+                </dd>
+              </div>
+
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Estado</dt>
+                <dd class="mt-1">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= @user.employee.active? ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+                    <%= @user.employee.employment_status.titleize %>
+                  </span>
+                </dd>
+              </div>
+
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Tipo de empleo</dt>
+                <dd class="mt-1 text-sm text-gray-900"><%= @user.employee.employment_type.titleize %></dd>
+              </div>
+            </dl>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

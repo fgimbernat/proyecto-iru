@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  department: one
+  level: 1
+  salary_range_min: 9.99
+  salary_range_max: 9.99
+
+two:
+  title: MyString
+  description: MyText
+  department: two
+  level: 1
+  salary_range_min: 9.99
+  salary_range_max: 9.99
