@@ -8,6 +8,11 @@ Rails.application.routes.draw do
     resources :employees
     resources :departments
     resources :positions
+    resources :time_off_policies do
+      member do
+        patch :toggle_active
+      end
+    end
     
     # Segmentation routes
     get 'segmentation', to: 'segmentation#index'
@@ -21,6 +26,11 @@ Rails.application.routes.draw do
     post 'segmentation/:segmentation_id/items', to: 'segmentation#create_item', as: 'create_segmentation_item'
     patch 'segmentation/items/:id', to: 'segmentation#update_item', as: 'update_segmentation_item'
     delete 'segmentation/items/:id', to: 'segmentation#destroy_item', as: 'destroy_segmentation_item'
+    
+    # Rutas para gestión de usuarios en items
+    get 'segmentation/items/:id/users', to: 'segmentation#item_users', as: 'segmentation_item_users'
+    post 'segmentation/items/:id/assign_user', to: 'segmentation#assign_user', as: 'assign_user_to_item'
+    delete 'segmentation/items/:id/unassign_user/:employee_id', to: 'segmentation#unassign_user', as: 'unassign_user_from_item'
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

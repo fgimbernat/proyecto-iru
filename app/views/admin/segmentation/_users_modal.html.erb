@@ -1,0 +1,85 @@
+<!-- Modal Usuarios de Comunidades -->
+<div data-segmentation-users-target="modal" 
+     class="fixed inset-0 flex items-center justify-center p-4"
+     style="background-color: rgba(0, 0, 0, 0.5); display: none;"
+     aria-labelledby="users-modal-title" 
+     role="dialog" 
+     aria-modal="true"
+     data-action="click->segmentation-users#closeModal">
+  
+  <div data-segmentation-users-target="modalContent"
+       class="bg-white rounded-xl shadow-2xl w-full max-w-md transform transition-all"
+       data-action="click->segmentation-users#stopPropagation:stop">
+    
+    <!-- Header -->
+    <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gradient-to-r from-gray-50 to-white">
+      <div class="flex items-center space-x-3">
+        <div class="p-2.5 bg-blue-100 rounded-lg">
+          <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+        </div>
+        <div>
+          <h3 id="users-modal-title" class="text-base font-semibold text-gray-900">Usuarios de Comunidades</h3>
+          <p data-segmentation-users-target="itemName" class="text-xs text-gray-500 mt-0.5"></p>
+        </div>
+      </div>
+      <button data-action="click->segmentation-users#closeModal" class="text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg p-1.5 transition-all">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="px-6 py-4 bg-gray-50 border-b border-gray-100">
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+        <input 
+          data-segmentation-users-target="searchInput"
+          data-action="input->segmentation-users#search"
+          type="text" 
+          class="block w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white shadow-sm" 
+          placeholder="Buscar por nombre o usuario">
+      </div>
+    </div>
+
+    <!-- User Lists -->
+    <div class="px-6 py-4 max-h-96 overflow-y-auto">
+      <!-- Loading State -->
+      <div data-segmentation-users-target="loadingState" style="display: none;" class="flex items-center justify-center py-12">
+        <div class="text-center">
+          <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mx-auto mb-3"></div>
+          <p class="text-sm text-gray-500">Cargando usuarios...</p>
+        </div>
+      </div>
+
+      <div>
+        <!-- Usuario label -->
+        <div class="flex items-center justify-between mb-3">
+          <h4 class="text-sm font-semibold text-gray-700">Usuario</h4>
+        </div>
+
+        <!-- Assigned Users -->
+        <div data-segmentation-users-target="assignedList" class="space-y-2 mb-4">
+        </div>
+
+        <!-- Available Users -->
+        <div data-segmentation-users-target="availableList">
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="bg-gray-50 px-6 py-3 flex items-center justify-between border-t border-gray-100">
+      <p class="text-xs text-gray-500">Usuarios asignados</p>
+      <p class="text-xs text-gray-500">
+        <span id="assigned-count">0</span> usuario(s)
+      </p>
+    </div>
+  </div>
+</div>

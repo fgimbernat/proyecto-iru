@@ -1,7 +1,10 @@
 module Admin
   class SegmentationController < BaseController
+    before_action :set_segmentation, only: [:update_segmentation, :destroy_segmentation]
+    before_action :set_item, only: [:update_item, :destroy_item, :item_users, :assign_user, :unassign_user]
+    
     def index
-      @segmentations = Segmentation.includes(:segmentation_items).all.order(:name)
+      @segmentations = Segmentation.includes(:segmentation_items).order(:name)
     end
 
     # Crear nueva segmentación
@@ -16,7 +19,6 @@ module Admin
 
     # Actualizar segmentación
     def update_segmentation
-      @segmentation = Segmentation.find(params[:id])
       if @segmentation.update(segmentation_params)
         redirect_to admin_segmentation_path, notice: 'Segmentación actualizada exitosamente'
       else
@@ -26,8 +28,9 @@ module Admin
 
     # Eliminar segmentación
     def destroy_segmentation
-      @segmentation = Segmentation.find(params[:id])
-      if @segmentation.destroy
+      if @segmentation.is_system?
+        redirect_to admin_segmentation_path, alert: 'No se pueden eliminar segmentaciones del sistema (Área, Jerarquía, Ubicación)'
+      elsif @segmentation.destroy
         redirect_to admin_segmentation_path, notice: 'Segmentación eliminada exitosamente'
       else
         redirect_to admin_segmentation_path, alert: 'No se pudo eliminar la segmentación'
@@ -47,7 +50,6 @@ module Admin
 
     # Actualizar item de segmentación
     def update_item
-      @item = SegmentationItem.find(params[:id])
       if @item.update(item_params)
         redirect_to admin_segmentation_path, notice: 'Item actualizado exitosamente'
       else
@@ -57,7 +59,6 @@ module Admin
 
     # Eliminar item de segmentación
     def destroy_item
-      @item = SegmentationItem.find(params[:id])
       if @item.destroy
         redirect_to admin_segmentation_path, notice: 'Item eliminado exitosamente'
       else
@@ -65,13 +66,94 @@ module Admin
       end
     end
 
-    private
+    # Obtener usuarios asignados a un item
+    def item_users
+      render json: {
+        assigned_users: serialize_employees(@item.employees.includes(:user)),
+        available_users: serialize_employees(available_employees)
+      }
+    end
 
+    # Asignar usuario a un item
+    def assign_user
+      @employee = Employee.find(params[:employee_id])
+      @employee_segmentation = EmployeeSegmentation.new(
+        employee_id: @employee.id,
+        segmentation_item_id: @item.id
+      )
+
+      if @employee_segmentation.save
+        render json: { 
+          success: true, 
+          message: 'Usuario asignado exitosamente',
+          user: serialize_employee(@employee)
+        }
+      else
+        render json: { 
+          success: false, 
+          message: @employee_segmentation.errors.full_messages.join(', ')
+        }, status: :unprocessable_entity
+      end
+    end
+
+    # Desasignar usuario de un item
+    def unassign_user
+      @employee = Employee.find(params[:employee_id])
+      @employee_segmentation = EmployeeSegmentation.find_by(
+        employee_id: @employee.id,
+        segmentation_item_id: @item.id
+      )
+
+      if @employee_segmentation&.destroy
+        render json: { success: true, message: 'Usuario desasignado exitosamente' }
+      else
+        render json: { success: false, message: 'No se pudo desasignar el usuario' }, 
+               status: :unprocessable_entity
+      end
+    end
+
+    private
+    
+    # Before action callbacks
+    def set_segmentation
+      @segmentation = Segmentation.find(params[:id])
+    end
+    
+    def set_item
+      @item = SegmentationItem.find(params[:id])
+    end
+    
+    # Serializers (patrón para evitar lógica en vistas/controladores)
+    def serialize_employees(employees)
+      employees.map { |employee| serialize_employee(employee) }
+    end
+    
+    def serialize_employee(employee)
+      {
+        id: employee.id,
+        name: employee.full_name,
+        email: employee.email,
+        user_email: employee.user&.email
+      }
+    end
+    
+    def available_employees
+      Employee.joins(:user)
+              .where.not(id: @item.employees.pluck(:id))
+              .order(:first_name, :last_name)
+              .limit(50)
+    end
+    
+    # Strong parameters
     def segmentation_params
+      params.require(:segmentation).permit(:name, :visibility)
+    rescue ActionController::ParameterMissing
       params.permit(:name, :visibility)
     end
 
     def item_params
+      params.require(:segmentation_item).permit(:name)
+    rescue ActionController::ParameterMissing
       params.permit(:name)
     end
   end

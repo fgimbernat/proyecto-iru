@@ -1,0 +1,46 @@
+es:
+  admin:
+    segmentation:
+      index:
+        title: "Segmentación"
+        subtitle: "Organiza las categorías de tu equipo"
+        new_button: "Nueva segmentación"
+        no_segmentations: "No hay segmentaciones creadas aún"
+      
+      card:
+        system_badge: "Sistema"
+        edit: "Editar segmentación"
+        delete: "Eliminar segmentación"
+        delete_confirm: "¿Estás seguro de eliminar '%{name}' y todos sus ítems?"
+        add_item: "Agregar ítem"
+        employees_count:
+          one: "1 empleado"
+          other: "%{count} empleados"
+      
+      modal:
+        new_title: "Nueva segmentación"
+        edit_title: "Editar segmentación"
+        name_label: "Nombre"
+        name_placeholder: "Ingresa el nombre"
+        visibility_label: "Visibilidad"
+        visibility_help: "Determina quién verá este campo en el perfil del usuario"
+        cancel: "Cancelar"
+        save: "Guardar"
+      
+      visibility:
+        all: "Todos"
+        own_and_admins: "Propio usuario y administradores"
+        admins_only: "Sólo administradores"
+      
+      flash:
+        created: "Segmentación creada exitosamente"
+        updated: "Segmentación actualizada exitosamente"
+        destroyed: "Segmentación eliminada exitosamente"
+        cannot_destroy_system: "No se pueden eliminar segmentaciones del sistema (Área, Jerarquía, Ubicación)"
+        item_created: "Item creado exitosamente"
+        item_updated: "Item actualizado exitosamente"
+        item_destroyed: "Item eliminado exitosamente"
+  
+  errors:
+    messages:
+      cannot_delete_system_record: "No se pueden eliminar registros del sistema de %{model}"

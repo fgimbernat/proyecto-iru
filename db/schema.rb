@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_31_001042) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_31_032411) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -137,6 +137,44 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_31_001042) do
     t.string "visibility"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_system", default: false, null: false
+    t.index ["is_system"], name: "index_segmentations_on_is_system"
+  end
+
+  create_table "time_off_policies", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.integer "policy_type", default: 0, null: false
+    t.integer "days_per_year"
+    t.boolean "requires_approval", default: true
+    t.boolean "active", default: true
+    t.string "icon"
+    t.string "color"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_time_off_policies_on_active"
+    t.index ["policy_type"], name: "index_time_off_policies_on_policy_type"
+  end
+
+  create_table "time_off_requests", force: :cascade do |t|
+    t.bigint "employee_id", null: false
+    t.bigint "time_off_policy_id", null: false
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.integer "days_requested", null: false
+    t.text "reason"
+    t.integer "status", default: 0, null: false
+    t.bigint "approved_by_id"
+    t.datetime "approved_at"
+    t.text "approval_notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["approved_by_id"], name: "index_time_off_requests_on_approved_by_id"
+    t.index ["employee_id", "status"], name: "index_time_off_requests_on_employee_id_and_status"
+    t.index ["employee_id"], name: "index_time_off_requests_on_employee_id"
+    t.index ["start_date"], name: "index_time_off_requests_on_start_date"
+    t.index ["status"], name: "index_time_off_requests_on_status"
+    t.index ["time_off_policy_id"], name: "index_time_off_requests_on_time_off_policy_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -160,4 +198,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_31_001042) do
   add_foreign_key "employees", "users"
   add_foreign_key "positions", "departments"
   add_foreign_key "segmentation_items", "segmentations"
+  add_foreign_key "time_off_requests", "employees"
+  add_foreign_key "time_off_requests", "time_off_policies"
+  add_foreign_key "time_off_requests", "users", column: "approved_by_id"
 end
