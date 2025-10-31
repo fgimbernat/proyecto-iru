@@ -3,25 +3,38 @@ module Admin
     before_action :set_user, only: [:show, :edit, :update, :destroy]
     before_action :load_form_data, only: [:new, :edit, :create, :update]
 
-    def index
-      @users = User.includes(:employee)
-                   .order(created_at: :desc)
-                   .page(params[:page])
-                   .per(20)
-      
-      # Filtro por búsqueda
-      if params[:search].present?
-        @users = @users.where("email ILIKE ?", "%#{params[:search]}%")
-      end
-      
-      # Filtro por estado
-      if params[:status].present? && params[:status] != 'all'
-        @users = @users.where(role: params[:status])
+  def index
+    @users = User.includes(employee: [:department, :position]).all
+    
+    # Filtro de búsqueda
+    if params[:search].present?
+      search_term = "%#{params[:search]}%"
+      @users = @users.left_joins(:employee).where(
+        "users.email LIKE ? OR employees.first_name LIKE ? OR employees.last_name LIKE ? OR employees.middle_name LIKE ?", 
+        search_term, search_term, search_term, search_term
+      )
+    end
+    
+    # Filtro de estado
+    if params[:status].present? && params[:status] != 'all'
+      case params[:status]
+      when 'active'
+        # Usuarios activos (por ahora todos son activos)
+        @users = @users.where.not(id: nil)
+      when 'no_login'
+        # Usuarios que nunca han iniciado sesión (por ahora vacío)
+        @users = @users.where(id: nil)
+      when 'inactive'
+        # Usuarios desactivados (por ahora vacío)
+        @users = @users.where(id: nil)
       end
     end
+    
+    @users = @users.order(created_at: :desc)
+  end
 
-    def show
-    end
+  def show
+  end
 
     def new
       @user = User.new
@@ -65,9 +78,7 @@ module Admin
       @departments = Department.where(active: true).order(:name)
       @positions = Position.order(:title)
       @potential_managers = Employee.where.not(id: @user&.employee&.id).order(:first_name)
-      @areas = Area.where(active: true).order(:name)
-      @hierarchies = Hierarchy.where(active: true).order(:name)
-      @locations = Location.where(active: true).order(:name)
+      @segmentations = Segmentation.includes(:segmentation_items).all.order(:name)
     end
 
     def user_params
@@ -119,9 +130,7 @@ module Admin
           :books,
           :team,
           :_destroy,
-          area_ids: [],
-          hierarchy_ids: [],
-          location_ids: []
+          segmentation_item_ids: []
         ]
       )
     end

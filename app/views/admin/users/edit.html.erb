@@ -1,20 +1,22 @@
-<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+<% content_for :page_title, "Editar usuario" %>
+
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Breadcrumb / Header -->
   <div class="mb-6">
-    <%= link_to admin_users_path, class: "inline-flex items-center text-blue-600 hover:text-blue-800" do %>
+    <%= link_to admin_users_path, class: "inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors" do %>
       <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
       </svg>
-      Volver
+      Volver a usuarios
     <% end %>
   </div>
 
-  <div class="bg-white shadow-sm rounded-lg">
-    <div class="px-6 py-4 border-b border-gray-200">
-      <h1 class="text-2xl font-semibold text-gray-900">Editar usuario</h1>
-    </div>
-
-    <div class="p-6">
-      <%= render 'form', user: @user %>
-    </div>
+  <!-- Título -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Editar usuario</h1>
+    <p class="mt-2 text-sm text-gray-600">Modifica la información del usuario y sus datos de empleado</p>
   </div>
+
+  <!-- Formulario -->
+  <%= render 'form', user: @user %>
 </div>

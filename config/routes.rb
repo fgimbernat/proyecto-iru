@@ -8,6 +8,19 @@ Rails.application.routes.draw do
     resources :employees
     resources :departments
     resources :positions
+    
+    # Segmentation routes
+    get 'segmentation', to: 'segmentation#index'
+    
+    # Rutas para segmentaciones
+    post 'segmentation/segmentations', to: 'segmentation#create_segmentation'
+    patch 'segmentation/segmentations/:id', to: 'segmentation#update_segmentation', as: 'update_segmentation'
+    delete 'segmentation/segmentations/:id', to: 'segmentation#destroy_segmentation', as: 'destroy_segmentation'
+    
+    # Rutas para items de segmentación
+    post 'segmentation/:segmentation_id/items', to: 'segmentation#create_item', as: 'create_segmentation_item'
+    patch 'segmentation/items/:id', to: 'segmentation#update_item', as: 'update_segmentation_item'
+    delete 'segmentation/items/:id', to: 'segmentation#destroy_item', as: 'destroy_segmentation_item'
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

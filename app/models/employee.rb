@@ -6,9 +6,7 @@ class Employee < ApplicationRecord
   belongs_to :manager, class_name: 'Employee', foreign_key: 'manager_id', optional: true
   has_many :subordinates, class_name: 'Employee', foreign_key: 'manager_id', dependent: :nullify
   has_many :employee_segmentations, dependent: :destroy
-  has_many :areas, through: :employee_segmentations
-  has_many :hierarchies, through: :employee_segmentations
-  has_many :locations, through: :employee_segmentations
+  has_many :segmentation_items, through: :employee_segmentations
 
   # Enums
   enum :document_type, { dni: 0, passport: 1, other_document: 2 }, default: :dni

@@ -281,53 +281,22 @@
             <!-- Tab Segmentación -->
             <div x-show="activeTab === 'segmentacion'" class="space-y-6">
               <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Área -->
-                <div>
-                  <h3 class="text-sm font-semibold text-gray-900 mb-3">Área</h3>
-                  <div class="border border-gray-200 rounded-lg max-h-64 overflow-y-auto">
-                    <% @areas.each do |area| %>
-                      <label class="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0">
-                        <%= ef.check_box :area_ids, 
-                            { multiple: true, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" }, 
-                            area.id, 
-                            nil %>
-                        <span class="ml-3 text-sm text-gray-700"><%= area.name %></span>
-                      </label>
-                    <% end %>
+                <% @segmentations.each do |segmentation| %>
+                  <div>
+                    <h3 class="text-sm font-semibold text-gray-900 mb-3"><%= segmentation.name %></h3>
+                    <div class="border border-gray-200 rounded-lg max-h-64 overflow-y-auto">
+                      <% segmentation.segmentation_items.each do |item| %>
+                        <label class="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0">
+                          <%= ef.check_box :segmentation_item_ids, 
+                              { multiple: true, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" }, 
+                              item.id, 
+                              nil %>
+                          <span class="ml-3 text-sm text-gray-700"><%= item.name %></span>
+                        </label>
+                      <% end %>
+                    </div>
                   </div>
-                </div>
-
-                <!-- Jerarquía -->
-                <div>
-                  <h3 class="text-sm font-semibold text-gray-900 mb-3">Jerarquía</h3>
-                  <div class="border border-gray-200 rounded-lg max-h-64 overflow-y-auto">
-                    <% @hierarchies.each do |hierarchy| %>
-                      <label class="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0">
-                        <%= ef.check_box :hierarchy_ids, 
-                            { multiple: true, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" }, 
-                            hierarchy.id, 
-                            nil %>
-                        <span class="ml-3 text-sm text-gray-700"><%= hierarchy.name %></span>
-                      </label>
-                    <% end %>
-                  </div>
-                </div>
-
-                <!-- Ubicación -->
-                <div>
-                  <h3 class="text-sm font-semibold text-gray-900 mb-3">Ubicación</h3>
-                  <div class="border border-gray-200 rounded-lg max-h-64 overflow-y-auto">
-                    <% @locations.each do |location| %>
-                      <label class="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0">
-                        <%= ef.check_box :location_ids, 
-                            { multiple: true, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" }, 
-                            location.id, 
-                            nil %>
-                        <span class="ml-3 text-sm text-gray-700"><%= location.name %></span>
-                      </label>
-                    <% end %>
-                  </div>
-                </div>
+                <% end %>
               </div>
             </div>
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_30_233610) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_31_001042) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_30_233610) do
     t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "visibility", default: "all"
   end
 
   create_table "departments", force: :cascade do |t|
@@ -34,15 +35,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_30_233610) do
 
   create_table "employee_segmentations", force: :cascade do |t|
     t.bigint "employee_id", null: false
-    t.bigint "area_id", null: false
-    t.bigint "hierarchy_id", null: false
-    t.bigint "location_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["area_id"], name: "index_employee_segmentations_on_area_id"
+    t.bigint "segmentation_item_id"
     t.index ["employee_id"], name: "index_employee_segmentations_on_employee_id"
-    t.index ["hierarchy_id"], name: "index_employee_segmentations_on_hierarchy_id"
-    t.index ["location_id"], name: "index_employee_segmentations_on_location_id"
+    t.index ["segmentation_item_id"], name: "index_employee_segmentations_on_segmentation_item_id"
   end
 
   create_table "employees", force: :cascade do |t|
@@ -104,6 +101,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_30_233610) do
     t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "visibility", default: "all"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -111,6 +109,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_30_233610) do
     t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "visibility", default: "all"
   end
 
   create_table "positions", force: :cascade do |t|
@@ -123,6 +122,21 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_30_233610) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["department_id"], name: "index_positions_on_department_id"
+  end
+
+  create_table "segmentation_items", force: :cascade do |t|
+    t.string "name"
+    t.bigint "segmentation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["segmentation_id"], name: "index_segmentation_items_on_segmentation_id"
+  end
+
+  create_table "segmentations", force: :cascade do |t|
+    t.string "name"
+    t.string "visibility"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -139,12 +153,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_30_233610) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "employee_segmentations", "areas"
   add_foreign_key "employee_segmentations", "employees"
-  add_foreign_key "employee_segmentations", "hierarchies"
-  add_foreign_key "employee_segmentations", "locations"
+  add_foreign_key "employee_segmentations", "segmentation_items"
   add_foreign_key "employees", "departments"
   add_foreign_key "employees", "positions"
   add_foreign_key "employees", "users"
   add_foreign_key "positions", "departments"
+  add_foreign_key "segmentation_items", "segmentations"
 end
