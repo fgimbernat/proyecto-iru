@@ -68,9 +68,12 @@ module Admin
 
     # Obtener usuarios asignados a un item
     def item_users
+      assigned = @item.employees.includes(:user)
+      available = available_employees
+      
       render json: {
-        assigned_users: serialize_employees(@item.employees.includes(:user)),
-        available_users: serialize_employees(available_employees)
+        assigned_users: serialize_employees(assigned),
+        available_users: serialize_employees(available)
       }
     end
 

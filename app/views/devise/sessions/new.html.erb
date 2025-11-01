@@ -1,0 +1,65 @@
+<div class="w-full max-w-md">
+  <!-- Logo/Header -->
+  <div class="text-center mb-8">
+    <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl mb-4 shadow-lg">
+      <span class="text-4xl font-bold text-white">IR</span>
+    </div>
+    <h2 class="text-3xl font-bold text-gray-900">IRU RRHH</h2>
+    <p class="mt-2 text-sm text-gray-600">Sistema de Gestión de Recursos Humanos</p>
+  </div>
+
+  <!-- Card de Login -->
+  <div class="bg-white rounded-2xl shadow-xl p-8">
+    <h3 class="text-2xl font-semibold text-gray-900 mb-6">Iniciar Sesión</h3>
+
+    <% if alert %>
+      <%= render AlertComponent.new(type: :error, dismissible: true) do %>
+        <%= alert %>
+      <% end %>
+    <% end %>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6" }) do |f| %>
+      <!-- Email Field -->
+      <div>
+        <%= f.label :email, "Correo Electrónico", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= f.email_field :email, 
+          autofocus: true, 
+          autocomplete: "email",
+          class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 outline-none",
+          placeholder: "tu@email.com" %>
+      </div>
+
+      <!-- Password Field -->
+      <div>
+        <%= f.label :password, "Contraseña", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= f.password_field :password, 
+          autocomplete: "current-password",
+          class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 outline-none",
+          placeholder: "••••••••" %>
+      </div>
+
+      <!-- Remember Me -->
+      <% if devise_mapping.rememberable? %>
+        <div class="flex items-center">
+          <%= f.check_box :remember_me, class: "w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" %>
+          <%= f.label :remember_me, "Recordarme", class: "ml-2 text-sm text-gray-700" %>
+        </div>
+      <% end %>
+
+      <!-- Submit Button -->
+      <div>
+        <%= f.submit "Iniciar Sesión", class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5" %>
+      </div>
+    <% end %>
+
+    <!-- Links adicionales -->
+    <div class="mt-6 text-center text-sm">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="text-center mt-8 text-sm text-gray-600">
+    <p>&copy; <%= Time.current.year %> IRU RRHH. Todos los derechos reservados.</p>
+  </div>
+</div>
