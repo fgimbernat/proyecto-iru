@@ -152,7 +152,7 @@ Employee
 ├── Datos personales: first_name, last_name, document_number, birth_date
 ├── Contacto: email, phone, mobile, address
 ├── Laborales: employee_number, hire_date, employment_status, salary
-├── belongs_to :user, :position, :department, :manager (self)
+├── belongs_to :user, :position, :department, :manager (self), :office (optional)
 └── has_many :subordinates (employees)
 
 Department
@@ -164,6 +164,21 @@ Position
 ├── title, description, level, salary_range
 ├── belongs_to :department
 └── has_many :employees
+
+Region
+├── name, description, active
+├── has_many :offices, :holidays
+└── has_many :employees, through: :offices
+
+Office (Sede)
+├── name, description, address, active
+├── belongs_to :region
+└── has_many :employees
+
+Holiday (Festivo)
+├── name, date, active
+├── belongs_to :region
+└── scopes: upcoming, past, current_year, in_year
 
 Segmentation (para filtros/grupos de empleados)
 ├── name, description, segmentation_type

@@ -14,6 +14,25 @@ Rails.application.routes.draw do
       end
     end
     
+    # Regions, Offices and Holidays
+    resources :regions do
+      member do
+        patch :toggle_active
+      end
+    end
+    
+    resources :offices do
+      member do
+        patch :toggle_active
+      end
+    end
+    
+    resources :holidays do
+      member do
+        patch :toggle_active
+      end
+    end
+    
     # Segmentation routes
     get 'segmentation', to: 'segmentation#index'
     

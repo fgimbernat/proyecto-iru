@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_31_032411) do
+ActiveRecord::Schema[7.2].define(version: 2025_11_01_000004) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -86,12 +86,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_31_032411) do
     t.string "emergency_contact"
     t.text "books"
     t.string "team"
+    t.bigint "office_id"
     t.index ["department_id"], name: "index_employees_on_department_id"
     t.index ["document_number"], name: "index_employees_on_document_number", unique: true
     t.index ["email"], name: "index_employees_on_email", unique: true
     t.index ["employee_number"], name: "index_employees_on_employee_number", unique: true
     t.index ["employment_status"], name: "index_employees_on_employment_status"
     t.index ["manager_id"], name: "index_employees_on_manager_id"
+    t.index ["office_id"], name: "index_employees_on_office_id"
     t.index ["position_id"], name: "index_employees_on_position_id"
     t.index ["user_id"], name: "index_employees_on_user_id"
   end
@@ -104,12 +106,39 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_31_032411) do
     t.string "visibility", default: "all"
   end
 
+  create_table "holidays", force: :cascade do |t|
+    t.string "name", null: false
+    t.date "date", null: false
+    t.bigint "region_id", null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_holidays_on_active"
+    t.index ["date"], name: "index_holidays_on_date"
+    t.index ["region_id", "date"], name: "index_holidays_on_region_id_and_date", unique: true
+    t.index ["region_id"], name: "index_holidays_on_region_id"
+  end
+
   create_table "locations", force: :cascade do |t|
     t.string "name"
     t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "visibility", default: "all"
+  end
+
+  create_table "offices", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.text "address"
+    t.bigint "region_id", null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_offices_on_active"
+    t.index ["name"], name: "index_offices_on_name"
+    t.index ["region_id", "name"], name: "index_offices_on_region_id_and_name", unique: true
+    t.index ["region_id"], name: "index_offices_on_region_id"
   end
 
   create_table "positions", force: :cascade do |t|
@@ -122,6 +151,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_31_032411) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["department_id"], name: "index_positions_on_department_id"
+  end
+
+  create_table "regions", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_regions_on_active"
+    t.index ["name"], name: "index_regions_on_name", unique: true
   end
 
   create_table "segmentation_items", force: :cascade do |t|
@@ -194,8 +233,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_31_032411) do
   add_foreign_key "employee_segmentations", "employees"
   add_foreign_key "employee_segmentations", "segmentation_items"
   add_foreign_key "employees", "departments"
+  add_foreign_key "employees", "offices"
   add_foreign_key "employees", "positions"
   add_foreign_key "employees", "users"
+  add_foreign_key "holidays", "regions"
+  add_foreign_key "offices", "regions"
   add_foreign_key "positions", "departments"
   add_foreign_key "segmentation_items", "segmentations"
   add_foreign_key "time_off_requests", "employees"

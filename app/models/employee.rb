@@ -2,6 +2,7 @@ class Employee < ApplicationRecord
   # Associations
   belongs_to :position
   belongs_to :department
+  belongs_to :office, optional: true
   belongs_to :user, optional: true
   belongs_to :manager, class_name: 'Employee', foreign_key: 'manager_id', optional: true
   has_many :subordinates, class_name: 'Employee', foreign_key: 'manager_id', dependent: :nullify

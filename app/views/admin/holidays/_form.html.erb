@@ -1,0 +1,76 @@
+<% content_for :page_title, @holiday.persisted? ? "Editar Festivo" : "Nuevo Festivo" %>
+
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+  <div class="max-w-3xl mx-auto">
+    <%= link_to admin_holidays_path, class: "inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-6" do %>
+      <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+      Volver
+    <% end %>
+
+    <div class="bg-white shadow-sm rounded-xl border border-gray-200 p-8">
+      <h1 class="text-2xl font-bold text-gray-900 mb-6">
+        <%= @holiday.persisted? ? "Editar Festivo" : "Nuevo Festivo" %>
+      </h1>
+
+      <%= form_with model: [:admin, @holiday], local: true do |f| %>
+        <% if @holiday.errors.any? %>
+          <%= render AlertComponent.new(type: :error, dismissible: true) do %>
+            <strong><%= pluralize(@holiday.errors.count, "error") %> impidieron guardar:</strong>
+            <ul class="mt-2 ml-4 list-disc">
+              <% @holiday.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          <% end %>
+        <% end %>
+
+        <div class="space-y-6">
+          <!-- Región -->
+          <div>
+            <%= f.label :region_id, "Región", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= f.select :region_id, 
+              options_from_collection_for_select(@regions, :id, :name, @holiday.region_id),
+              { prompt: "Seleccionar región" },
+              class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+          </div>
+
+          <!-- Nombre -->
+          <div>
+            <%= f.label :name, "Nombre", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= f.text_field :name, 
+              class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500",
+              placeholder: "Ej: Año Nuevo" %>
+          </div>
+
+          <!-- Fecha -->
+          <div>
+            <%= f.label :date, "Fecha", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= f.date_field :date, 
+              class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+          </div>
+
+          <!-- Estado Activo -->
+          <div class="flex items-center">
+            <%= f.check_box :active, class: "rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+            <%= f.label :active, "Festivo activo", class: "ml-2 text-sm text-gray-700" %>
+          </div>
+
+          <!-- Botones -->
+          <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-200">
+            <%= link_to admin_holidays_path do %>
+              <%= render ButtonComponent.new(variant: :ghost) do %>
+                Cancelar
+              <% end %>
+            <% end %>
+
+            <%= render ButtonComponent.new(variant: :primary, type: "submit") do %>
+              <%= @holiday.persisted? ? "Actualizar" : "Crear" %> Festivo
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
