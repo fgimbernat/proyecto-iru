@@ -1,0 +1,50 @@
+// ============================================
+// HEADER COMPONENT
+// ============================================
+
+.admin-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: $z-index-sticky;
+  background-color: $color-white;
+  border-block-end: 1px solid $color-gray-200;
+  
+  &__container {
+    @include flex-between;
+    height: $header-height;
+    padding-inline: $spacing-6;
+  }
+  
+  &__title {
+    flex: 1;
+    
+    h1 {
+      font-size: $font-size-xl;
+      font-weight: $font-weight-semibold;
+      color: $color-gray-900;
+      margin: 0;
+    }
+  }
+  
+  &__actions {
+    @include flex-center;
+    gap: $spacing-3;
+  }
+}
+
+// ============================================
+// MAIN CONTENT LAYOUT
+// ============================================
+
+.admin-layout {
+  min-height: 100vh;
+  background: linear-gradient(135deg, $color-gray-50 0%, $color-gray-100 100%);
+  
+  &__content {
+    padding-inline-start: $sidebar-width;
+  }
+  
+  &__main {
+    flex: 1;
+  }
+}

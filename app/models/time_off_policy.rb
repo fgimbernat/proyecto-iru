@@ -27,15 +27,15 @@ class TimeOffPolicy < ApplicationRecord
   # Class methods
   def self.policy_type_icons
     {
-      vacation: '🏖️',
-      sick_leave: '🏥',
-      personal_day: '🧘',
-      study_leave: '📚',
-      maternity_leave: '👶',
-      paternity_leave: '👨‍👶',
-      bereavement_leave: '🕊️',
-      remote_work: '🏠',
-      other: '📝'
+      vacation: 'fa-umbrella-beach',
+      sick_leave: 'fa-briefcase-medical',
+      personal_day: 'fa-person-walking',
+      study_leave: 'fa-graduation-cap',
+      maternity_leave: 'fa-baby-carriage',
+      paternity_leave: 'fa-baby',
+      bereavement_leave: 'fa-dove',
+      remote_work: 'fa-house-laptop',
+      other: 'fa-file-lines'
     }
   end
 
@@ -56,6 +56,10 @@ class TimeOffPolicy < ApplicationRecord
   # Instance methods
   def display_icon
     icon.presence || self.class.policy_type_icons[policy_type.to_sym]
+  end
+  
+  def display_icon_html
+    "<i class='fa-solid #{display_icon}'></i>".html_safe
   end
 
   def display_color

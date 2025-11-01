@@ -1,0 +1,157 @@
+// ============================================
+// SIDEBAR COMPONENT
+// ============================================
+
+.admin-sidebar {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  z-index: $z-index-sticky;
+  width: $sidebar-width;
+  background-color: $color-white;
+  border-inline-end: 1px solid $color-gray-200;
+  @include smooth-transition;
+  @include animate(slideIn, $transition-slow);
+  
+  // Sidebar Header
+  &__header {
+    @include flex-between;
+    height: $header-height;
+    padding-inline: $spacing-4;
+    border-block-end: 1px solid $color-gray-200;
+    
+    .brand {
+      @include flex-center;
+      gap: $spacing-3;
+      
+      &__icon {
+        @include flex-center;
+        width: 2rem;
+        height: 2rem;
+        font-size: $font-size-xl;
+        @include hover-scale(1.1);
+      }
+      
+      &__text {
+        font-size: $font-size-lg;
+        font-weight: $font-weight-semibold;
+        color: $color-gray-900;
+      }
+    }
+    
+    .badge--admin {
+      @include badge($color-primary-100, $color-primary-dark);
+    }
+  }
+  
+  // Navigation
+  &__nav {
+    margin-block-start: $spacing-8;
+    padding-inline: $spacing-3;
+    
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-1;
+    }
+  }
+  
+  // Footer
+  &__footer {
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline: 0;
+    padding: $spacing-4;
+    border-block-start: 1px solid $color-gray-200;
+    background-color: $color-white;
+    
+    .user-profile {
+      @include flex-center;
+      gap: $spacing-3;
+      padding: $spacing-2;
+      margin-block-end: $spacing-3;
+      background-color: $color-gray-50;
+      border-radius: $radius-lg;
+      
+      &__avatar {
+        @include flex-center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: $radius-full;
+        background: linear-gradient(135deg, $color-primary, $color-primary-dark);
+        color: $color-white;
+        font-weight: $font-weight-semibold;
+        font-size: $font-size-sm;
+      }
+      
+      &__info {
+        flex: 1;
+        min-width: 0;
+      }
+      
+      &__email {
+        @include text-truncate;
+        font-size: $font-size-sm;
+        font-weight: $font-weight-medium;
+        color: $color-gray-900;
+      }
+      
+      &__role {
+        font-size: $font-size-xs;
+        color: $color-gray-500;
+        text-transform: capitalize;
+      }
+    }
+    
+    .logout-btn {
+      @include button-base;
+      width: 100%;
+      background-color: $color-white;
+      color: $color-gray-700;
+      border: 1px solid $color-gray-300;
+      
+      &:hover:not(:disabled) {
+        background-color: $color-gray-50;
+      }
+      
+      i {
+        margin-inline-end: $spacing-2;
+      }
+    }
+  }
+}
+
+// ============================================
+// NAV LINK COMPONENT
+// ============================================
+
+.nav-link {
+  @include flex-center;
+  gap: $spacing-3;
+  padding: $spacing-2 $spacing-3;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-gray-700;
+  border-radius: $radius-lg;
+  @include smooth-transition;
+  
+  .icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+  }
+  
+  &:hover {
+    background-color: $color-gray-50;
+    color: $color-gray-900;
+  }
+  
+  &--active {
+    background-color: $color-primary-50;
+    color: $color-primary-dark;
+    
+    &:hover {
+      background-color: $color-primary-100;
+    }
+  }
+}

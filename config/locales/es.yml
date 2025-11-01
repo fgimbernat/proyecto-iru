@@ -55,3 +55,124 @@ es:
       long: "%A, %d de %B de %Y %H:%M:%S %z"
     am: "am"
     pm: "pm"
+  
+  activerecord:
+    errors:
+      messages:
+        blank: "no puede estar en blanco"
+        taken: "ya está en uso"
+        invalid: "no es válido"
+        confirmation: "no coincide"
+        too_short: "es demasiado corto (mínimo %{count} caracteres)"
+        too_long: "es demasiado largo (máximo %{count} caracteres)"
+        wrong_length: "no tiene la longitud correcta (debe ser de %{count} caracteres)"
+        not_a_number: "no es un número"
+        greater_than: "debe ser mayor que %{count}"
+        greater_than_or_equal_to: "debe ser mayor o igual que %{count}"
+        less_than: "debe ser menor que %{count}"
+        less_than_or_equal_to: "debe ser menor o igual que %{count}"
+        equal_to: "debe ser igual a %{count}"
+        not_an_integer: "debe ser un número entero"
+        odd: "debe ser impar"
+        even: "debe ser par"
+        required: "debe existir"
+      models:
+        employee:
+          attributes:
+            document_number:
+              blank: "no puede estar en blanco"
+              taken: "ya está registrado en el sistema"
+            employee_number:
+              blank: "no puede estar en blanco"
+              taken: "ya está en uso"
+            email:
+              blank: "no puede estar en blanco"
+              taken: "ya está registrado"
+              invalid: "no es una dirección de correo válida"
+            first_name:
+              blank: "no puede estar en blanco"
+            last_name:
+              blank: "no puede estar en blanco"
+            hire_date:
+              blank: "no puede estar en blanco"
+            salary:
+              not_a_number: "debe ser un número"
+              greater_than_or_equal_to: "debe ser mayor o igual a 0"
+        user:
+          attributes:
+            email:
+              blank: "no puede estar en blanco"
+              taken: "ya está registrado"
+              invalid: "no es una dirección de correo válida"
+            password:
+              blank: "no puede estar en blanco"
+              too_short: "es demasiado corta (mínimo %{count} caracteres)"
+        department:
+          attributes:
+            name:
+              blank: "no puede estar en blanco"
+              taken: "ya existe un departamento con este nombre"
+        position:
+          attributes:
+            title:
+              blank: "no puede estar en blanco"
+    attributes:
+      employee:
+        first_name: "Nombre"
+        middle_name: "Segundo nombre"
+        last_name: "Apellido"
+        document_type: "Tipo de documento"
+        document_number: "Número de documento"
+        employee_number: "Número de empleado"
+        email: "Correo electrónico"
+        phone: "Teléfono"
+        mobile: "Celular"
+        birth_date: "Fecha de nacimiento"
+        gender: "Género"
+        marital_status: "Estado civil"
+        address: "Dirección"
+        city: "Ciudad"
+        state: "Provincia/Estado"
+        country: "País"
+        postal_code: "Código postal"
+        hire_date: "Fecha de ingreso"
+        termination_date: "Fecha de baja"
+        position: "Posición"
+        department: "Departamento"
+        manager: "Supervisor"
+        employment_status: "Estado de empleo"
+        employment_type: "Tipo de empleo"
+        salary: "Salario"
+        currency: "Moneda"
+        notes: "Notas"
+      user:
+        email: "Correo electrónico"
+        password: "Contraseña"
+        password_confirmation: "Confirmación de contraseña"
+        role: "Rol"
+        current_password: "Contraseña actual"
+      department:
+        name: "Nombre"
+        description: "Descripción"
+        active: "Activo"
+        manager: "Responsable"
+      position:
+        title: "Título"
+        description: "Descripción"
+        level: "Nivel"
+        department: "Departamento"
+        salary_range_min: "Salario mínimo"
+        salary_range_max: "Salario máximo"
+    models:
+      employee:
+        one: "Empleado"
+        other: "Empleados"
+      user:
+        one: "Usuario"
+        other: "Usuarios"
+      department:
+        one: "Departamento"
+        other: "Departamentos"
+      position:
+        one: "Posición"
+        other: "Posiciones"

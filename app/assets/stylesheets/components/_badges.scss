@@ -1,0 +1,43 @@
+// ============================================
+// BADGE COMPONENT
+// ============================================
+
+.badge {
+  @include badge($color-gray-200, $color-gray-700);
+  
+  // Size variants
+  &--sm {
+    padding: $spacing-1 $spacing-2;
+    font-size: 0.625rem; // 10px
+  }
+  
+  &--lg {
+    padding: $spacing-2 $spacing-3;
+    font-size: $font-size-sm;
+  }
+  
+  // Color variants
+  &--primary {
+    @include badge($color-primary-100, $color-primary-dark);
+  }
+  
+  &--success {
+    @include badge($color-success-light, $color-success-dark);
+  }
+  
+  &--warning {
+    @include badge($color-warning-light, $color-warning-dark);
+  }
+  
+  &--error {
+    @include badge($color-error-light, $color-error-dark);
+  }
+  
+  &--info {
+    @include badge($color-info-light, $color-info-dark);
+  }
+  
+  &--neutral {
+    @include badge($color-gray-200, $color-gray-700);
+  }
+}

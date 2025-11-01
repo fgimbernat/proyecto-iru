@@ -1,0 +1,38 @@
+// ============================================
+// CARD COMPONENTS
+// ============================================
+
+.card {
+  @include card;
+  
+  &--hoverable {
+    @include hover-lift;
+    cursor: pointer;
+  }
+  
+  &--glass {
+    @include glass-effect;
+  }
+  
+  &__header {
+    margin-block-end: $spacing-4;
+    padding-block-end: $spacing-4;
+    border-block-end: 1px solid $color-gray-200;
+    
+    &-title {
+      @include heading($font-size-lg, $font-weight-semibold);
+      margin: 0;
+    }
+  }
+  
+  &__body {
+    font-size: $font-size-sm;
+    color: $color-gray-700;
+  }
+  
+  &__footer {
+    margin-block-start: $spacing-4;
+    padding-block-start: $spacing-4;
+    border-block-start: 1px solid $color-gray-200;
+  }
+}

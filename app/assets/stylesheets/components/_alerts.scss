@@ -1,0 +1,121 @@
+// ============================================
+// ALERT COMPONENTS
+// ============================================
+
+.alert {
+  display: flex;
+  align-items: flex-start;
+  margin: $spacing-4 $spacing-6 0;
+  padding: $spacing-4;
+  border-radius: $radius-lg;
+  border-inline-start-width: 4px;
+  border-inline-start-style: solid;
+  @include animate(slideDown, $transition-base);
+  position: relative;
+  
+  &__icon {
+    flex-shrink: 0;
+    
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+  
+  &__content {
+    margin-inline-start: $spacing-3;
+    flex: 1;
+  }
+  
+  &__title {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    margin-block-end: $spacing-1;
+  }
+  
+  &__message {
+    font-size: $font-size-sm;
+    line-height: $line-height-normal;
+    margin: 0;
+  }
+  
+  &__close {
+    @include flex-center;
+    flex-shrink: 0;
+    margin-inline-start: $spacing-3;
+    padding: $spacing-1;
+    background: transparent;
+    border: none;
+    border-radius: $radius-base;
+    cursor: pointer;
+    opacity: 0.6;
+    @include smooth-transition;
+    
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+    
+    &:hover {
+      opacity: 1;
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+  
+  // Variants
+  &--success {
+    background-color: $color-success-light;
+    border-inline-start-color: $color-success;
+    
+    .alert__icon {
+      color: $color-success;
+    }
+    
+    .alert__title,
+    .alert__message {
+      color: $color-success-dark;
+    }
+  }
+  
+  &--error {
+    background-color: $color-error-light;
+    border-inline-start-color: $color-error;
+    
+    .alert__icon {
+      color: $color-error;
+    }
+    
+    .alert__title,
+    .alert__message {
+      color: $color-error-dark;
+    }
+  }
+  
+  &--warning {
+    background-color: $color-warning-light;
+    border-inline-start-color: $color-warning;
+    
+    .alert__icon {
+      color: $color-warning;
+    }
+    
+    .alert__title,
+    .alert__message {
+      color: $color-warning-dark;
+    }
+  }
+  
+  &--info {
+    background-color: $color-info-light;
+    border-inline-start-color: $color-info;
+    
+    .alert__icon {
+      color: $color-info;
+    }
+    
+    .alert__title,
+    .alert__message {
+      color: $color-info-dark;
+    }
+  }
+}

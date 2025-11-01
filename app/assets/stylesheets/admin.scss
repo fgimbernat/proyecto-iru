@@ -1,0 +1,30 @@
+// ============================================
+// ADMIN STYLES - MAIN ENTRY POINT
+// Following 7-1 Architecture Pattern
+// ============================================
+
+// 1. Abstracts - Variables, Mixins, Functions
+@import 'abstracts/variables';
+@import 'abstracts/mixins';
+
+// 2. Base - Reset, Typography, Global styles
+@import 'base/reset';
+
+// 3. Layout - Header, Sidebar, Footer, Grid
+@import 'layout/header';
+@import 'layout/sidebar';
+
+// 4. Components - Buttons, Cards, Forms, etc.
+@import 'components/buttons';
+@import 'components/alerts';
+@import 'components/cards';
+@import 'components/badges';
+@import 'components/forms';
+
+// 5. Pages - Page specific styles
+// @import 'pages/dashboard';
+// @import 'pages/users';
+
+// 6. Utilities - Helper classes
+// @import 'utilities/spacing';
+// @import 'utilities/text';

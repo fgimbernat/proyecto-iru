@@ -1,0 +1,150 @@
+// ============================================
+// DESIGN TOKENS & VARIABLES
+// ============================================
+
+// ---- Color Palette ----
+// Primary Colors
+$color-primary: #3b82f6;        // Blue 500
+$color-primary-light: #60a5fa;  // Blue 400
+$color-primary-dark: #2563eb;   // Blue 600
+$color-primary-50: #eff6ff;     // Blue 50
+$color-primary-100: #dbeafe;    // Blue 100
+
+// Neutral Colors
+$color-white: #ffffff;
+$color-gray-50: #f9fafb;
+$color-gray-100: #f3f4f6;
+$color-gray-200: #e5e7eb;
+$color-gray-300: #d1d5db;
+$color-gray-400: #9ca3af;
+$color-gray-500: #6b7280;
+$color-gray-600: #4b5563;
+$color-gray-700: #374151;
+$color-gray-800: #1f2937;
+$color-gray-900: #111827;
+
+// Semantic Colors
+$color-success: #10b981;        // Green 500
+$color-success-light: #d1fae5;  // Green 100
+$color-success-dark: #059669;   // Green 600
+
+$color-warning: #f59e0b;        // Amber 500
+$color-warning-light: #fef3c7;  // Amber 100
+$color-warning-dark: #d97706;   // Amber 600
+
+$color-error: #ef4444;          // Red 500
+$color-error-light: #fee2e2;    // Red 100
+$color-error-dark: #dc2626;     // Red 600
+
+$color-info: #3b82f6;           // Blue 500
+$color-info-light: #dbeafe;     // Blue 100
+$color-info-dark: #2563eb;      // Blue 600
+
+// ---- Typography ----
+$font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+$font-family-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Consolas', monospace;
+
+// Font Sizes (using fluid typography)
+$font-size-xs: 0.75rem;      // 12px
+$font-size-sm: 0.875rem;     // 14px
+$font-size-base: 1rem;       // 16px
+$font-size-lg: 1.125rem;     // 18px
+$font-size-xl: 1.25rem;      // 20px
+$font-size-2xl: 1.5rem;      // 24px
+$font-size-3xl: 1.875rem;    // 30px
+$font-size-4xl: 2.25rem;     // 36px
+
+// Font Weights
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$font-weight-extrabold: 800;
+
+// Line Heights
+$line-height-tight: 1.25;
+$line-height-normal: 1.5;
+$line-height-relaxed: 1.75;
+$line-height-loose: 2;
+
+// ---- Spacing Scale ----
+$spacing-0: 0;
+$spacing-1: 0.25rem;   // 4px
+$spacing-2: 0.5rem;    // 8px
+$spacing-3: 0.75rem;   // 12px
+$spacing-4: 1rem;      // 16px
+$spacing-5: 1.25rem;   // 20px
+$spacing-6: 1.5rem;    // 24px
+$spacing-8: 2rem;      // 32px
+$spacing-10: 2.5rem;   // 40px
+$spacing-12: 3rem;     // 48px
+$spacing-16: 4rem;     // 64px
+$spacing-20: 5rem;     // 80px
+$spacing-24: 6rem;     // 96px
+
+// ---- Border Radius ----
+$radius-none: 0;
+$radius-sm: 0.125rem;   // 2px
+$radius-base: 0.25rem;  // 4px
+$radius-md: 0.375rem;   // 6px
+$radius-lg: 0.5rem;     // 8px
+$radius-xl: 0.75rem;    // 12px
+$radius-2xl: 1rem;      // 16px
+$radius-3xl: 1.5rem;    // 24px
+$radius-full: 9999px;
+
+// ---- Shadows ----
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+$shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+$shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+
+// Elegant Shadows (softer)
+$shadow-elegant: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+$shadow-elegant-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+// ---- Breakpoints (Mobile First) ----
+$breakpoint-sm: 640px;   // Small devices
+$breakpoint-md: 768px;   // Medium devices
+$breakpoint-lg: 1024px;  // Large devices
+$breakpoint-xl: 1280px;  // Extra large devices
+$breakpoint-2xl: 1536px; // 2X large devices
+
+// ---- Z-Index Layers ----
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
+
+// ---- Transitions ----
+$transition-fast: 150ms;
+$transition-base: 200ms;
+$transition-slow: 300ms;
+$transition-slower: 500ms;
+
+$easing-linear: linear;
+$easing-in: cubic-bezier(0.4, 0, 1, 1);
+$easing-out: cubic-bezier(0, 0, 0.2, 1);
+$easing-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+$easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+// ---- Layout ----
+$sidebar-width: 16rem;      // 256px
+$header-height: 4rem;       // 64px
+$container-max-width: 1280px;
+
+// ---- Component Specific ----
+$input-height: 2.5rem;      // 40px
+$input-height-sm: 2rem;     // 32px
+$input-height-lg: 3rem;     // 48px
+
+$button-height: 2.5rem;     // 40px
+$button-height-sm: 2rem;    // 32px
+$button-height-lg: 3rem;    // 48px

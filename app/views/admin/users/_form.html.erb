@@ -110,6 +110,25 @@
                   </svg>
                 </summary>
                 <div class="p-4 space-y-4">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <%= ef.label :document_type, "Tipo de documento", class: "block text-sm font-medium text-gray-700 mb-1" %>
+                      <%= ef.select :document_type, 
+                          options_for_select([
+                            ['DNI', 'dni'], 
+                            ['Pasaporte', 'passport'], 
+                            ['Otro', 'other_document']
+                          ], ef.object.document_type || 'dni'),
+                          {},
+                          class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
+                    </div>
+
+                    <div>
+                      <%= ef.label :document_number, "Número de documento", class: "block text-sm font-medium text-gray-700 mb-1" %>
+                      <%= ef.text_field :document_number, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "Ej: 12345678" %>
+                    </div>
+                  </div>
+
                   <div>
                     <%= ef.label :birth_date, "Fecha de nacimiento", class: "block text-sm font-medium text-gray-700 mb-1" %>
                     <%= ef.date_field :birth_date, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>

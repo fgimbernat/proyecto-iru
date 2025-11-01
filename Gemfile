@@ -34,6 +34,9 @@ gem "pundit", "~> 2.3"
 # Pagination
 gem "kaminari", "~> 1.2"
 
+# View Components
+gem "view_component", "~> 3.0"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
@@ -66,3 +69,5 @@ group :test do
 end
 
 gem "tailwindcss-rails", "~> 4.4"
+
+gem "sassc-rails", "~> 2.1"

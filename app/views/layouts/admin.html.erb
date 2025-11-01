@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-full bg-gray-100">
+<html>
   <head>
     <title>Admin - Proyecto IRU</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -8,13 +8,17 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "admin", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -24,96 +28,111 @@
     </style>
   </head>
 
-  <body class="h-full" data-controller="segmentation-users">
-    <div class="min-h-full">
+  <body data-controller="segmentation-users">
+    <div class="admin-layout">
       <!-- Sidebar -->
-      <aside class="fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transform transition-transform duration-200 ease-in-out">
+      <aside class="admin-sidebar">
         <!-- Sidebar Header -->
-        <div class="flex items-center justify-between h-16 px-4 border-b border-gray-200">
-          <div class="flex items-center space-x-3">
-            <span class="text-2xl">🏢</span>
-            <span class="text-lg font-semibold text-gray-900">IRU RRHH</span>
+        <div class="admin-sidebar__header">
+          <div class="brand">
+            <span class="brand__icon">
+              <i class="fa-solid fa-building text-blue-600"></i>
+            </span>
+            <span class="brand__text">IRU RRHH</span>
           </div>
-          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+          <%= render BadgeComponent.new(variant: :primary) do %>
             Admin
-          </span>
+          <% end %>
         </div>
 
         <!-- Navigation -->
-                <!-- Navigation Links -->
-        <nav class="mt-8 space-y-1 px-3">
-          <%= link_to admin_root_path, class: "flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors #{current_page?(admin_root_path) ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'}" do %>
-            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
-            Dashboard
-          <% end %>
+        <nav class="admin-sidebar__nav">
+          <ul class="nav-list">
+            <li>
+              <%= link_to admin_root_path, class: "nav-link #{current_page?(admin_root_path) ? 'nav-link--active' : ''}" do %>
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                Dashboard
+              <% end %>
+            </li>
 
-          <%= link_to admin_users_path, class: "flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors #{current_page?(admin_users_path) ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'}" do %>
-            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-            Usuarios
-          <% end %>
+            <li>
+              <%= link_to admin_users_path, class: "nav-link #{current_page?(admin_users_path) ? 'nav-link--active' : ''}" do %>
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                Usuarios
+              <% end %>
+            </li>
 
-          <%= link_to admin_segmentation_path, class: "flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors #{current_page?(admin_segmentation_path) ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'}" do %>
-            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-            </svg>
-            Segmentación
-          <% end %>
+            <li>
+              <%= link_to admin_segmentation_path, class: "nav-link #{current_page?(admin_segmentation_path) ? 'nav-link--active' : ''}" do %>
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                </svg>
+                Segmentación
+              <% end %>
+            </li>
 
-          <%= link_to admin_time_off_policies_path, class: "flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors #{current_page?(controller: 'admin/time_off_policies') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'}" do %>
-            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            Vacaciones y permisos
-          <% end %>
+            <li>
+              <%= link_to admin_time_off_policies_path, class: "nav-link #{current_page?(controller: 'admin/time_off_policies') ? 'nav-link--active' : ''}" do %>
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Vacaciones y permisos
+              <% end %>
+            </li>
+          </ul>
         </nav>
 
         <!-- Sidebar Footer -->
-        <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-white">
-          <div class="flex items-center space-x-3 mb-3 p-2 rounded-lg bg-gray-50">
-            <div class="flex-shrink-0">
-              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-semibold">
-                <%= current_user.email.first.upcase %>
-              </div>
+        <div class="admin-sidebar__footer">
+          <div class="user-profile">
+            <div class="user-profile__avatar">
+              <%= current_user.email.first.upcase %>
             </div>
-            <div class="flex-1 min-w-0">
-              <p class="text-sm font-medium text-gray-900 truncate">
+            <div class="user-profile__info">
+              <p class="user-profile__email">
                 <%= current_user.email %>
               </p>
-              <p class="text-xs text-gray-500 capitalize">
+              <p class="user-profile__role">
                 <%= current_user.role %>
               </p>
             </div>
           </div>
-          <%= button_to destroy_user_session_path, method: :delete, class: "w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" do %>
-            <span class="mr-2">🚪</span>
+          <%= button_to destroy_user_session_path, method: :delete, class: "logout-btn" do %>
+            <i class="fa-solid fa-right-from-bracket"></i>
             <span>Cerrar sesión</span>
           <% end %>
         </div>
       </aside>
 
       <!-- Main Content -->
-      <div class="pl-64">
+      <div class="admin-layout__content">
         <!-- Top Header -->
-        <header class="sticky top-0 z-40 bg-white border-b border-gray-200">
-          <div class="flex items-center justify-between h-16 px-6">
-            <div class="flex-1">
-              <h1 class="text-xl font-semibold text-gray-900"><%= yield :page_title %></h1>
+        <header class="admin-header">
+          <div class="admin-header__container">
+            <div class="admin-header__title">
+              <h1><%= yield :page_title %></h1>
             </div>
-            <div class="flex items-center space-x-3">
-              <button class="p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 rounded-lg transition-colors" title="Nuevos lanzamientos">
-                <span class="text-xl">🚀</span>
+            <div class="admin-header__actions">
+              <button class="icon-btn" title="Nuevos lanzamientos">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
               </button>
-              <button class="p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 rounded-lg transition-colors" title="Ayuda">
-                <span class="text-xl">❓</span>
+              <button class="icon-btn" title="Ayuda">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
               </button>
-              <button class="p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 rounded-lg transition-colors" title="Idioma">
-                <span class="text-xl">🌐</span>
+              <button class="icon-btn" title="Idioma">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                </svg>
               </button>
-              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-xs font-semibold">
+              <div class="user-profile__avatar">
                 <%= current_user.email.first(2).upcase %>
               </div>
             </div>
@@ -122,37 +141,19 @@
 
         <!-- Alerts -->
         <% if notice %>
-          <div class="bg-green-50 border-l-4 border-green-400 p-4 mx-6 mt-4">
-            <div class="flex">
-              <div class="flex-shrink-0">
-                <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                </svg>
-              </div>
-              <div class="ml-3">
-                <p class="text-sm text-green-700"><%= notice %></p>
-              </div>
-            </div>
-          </div>
+          <%= render AlertComponent.new(type: :success) do %>
+            <%= notice %>
+          <% end %>
         <% end %>
         
         <% if alert %>
-          <div class="bg-red-50 border-l-4 border-red-400 p-4 mx-6 mt-4">
-            <div class="flex">
-              <div class="flex-shrink-0">
-                <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-                </svg>
-              </div>
-              <div class="ml-3">
-                <p class="text-sm text-red-700"><%= alert %></p>
-              </div>
-            </div>
-          </div>
+          <%= render AlertComponent.new(type: :error) do %>
+            <%= alert %>
+          <% end %>
         <% end %>
 
         <!-- Page Content -->
-        <main class="flex-1">
+        <main class="admin-layout__main">
           <%= yield %>
         </main>
       </div>
