@@ -1,0 +1,9 @@
+<div x-show="activeTab === 'general'" class="space-y-4">
+  <%= f.fields_for :employee do |ef| %>
+    <%= render 'form_general_settings', ef: ef %>
+    <%= render 'form_trabajo', ef: ef %>
+    <%= render 'form_redes_sociales', ef: ef %>
+    <%= render 'form_campos_personalizados', ef: ef %>
+  <% end %>
+  <%= render 'form_metodos_acceso', f: f %>
+</div>

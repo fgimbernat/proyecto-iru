@@ -103,6 +103,16 @@
                 <dd class="mt-1 text-sm text-gray-900"><%= @user.employee.position.title %></dd>
               </div>
 
+              <% if @user.employee.office %>
+                <div>
+                  <dt class="text-sm font-medium text-gray-500">Sede</dt>
+                  <dd class="mt-1 text-sm text-gray-900">
+                    <%= @user.employee.office.name %>
+                    <span class="text-gray-500">(<%= @user.employee.office.region.name %>)</span>
+                  </dd>
+                </div>
+              <% end %>
+
               <% if @user.employee.manager %>
                 <div>
                   <dt class="text-sm font-medium text-gray-500">Supervisor</dt>

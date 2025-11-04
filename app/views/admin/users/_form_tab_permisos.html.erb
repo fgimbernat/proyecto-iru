@@ -1,0 +1,37 @@
+<div x-show="activeTab === 'permisos'" class="space-y-6">
+  <div>
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Rol del sistema</h3>
+    
+    <div class="space-y-3">
+      <div class="flex items-start p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+        <div class="flex items-center h-5">
+          <%= f.radio_button :role, 'employee', class: "focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300", checked: user.role == 'employee' || user.new_record? %>
+        </div>
+        <div class="ml-3">
+          <%= f.label :role, "Empleado", value: 'employee', class: "font-medium text-gray-900 cursor-pointer" %>
+          <p class="text-sm text-gray-500">Acceso básico para ver su información personal y recursos del sistema.</p>
+        </div>
+      </div>
+
+      <div class="flex items-start p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+        <div class="flex items-center h-5">
+          <%= f.radio_button :role, 'manager', class: "focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300", checked: user.role == 'manager' %>
+        </div>
+        <div class="ml-3">
+          <%= f.label :role, "Manager", value: 'manager', class: "font-medium text-gray-900 cursor-pointer" %>
+          <p class="text-sm text-gray-500">Puede gestionar empleados de su departamento y aprobar solicitudes.</p>
+        </div>
+      </div>
+
+      <div class="flex items-start p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+        <div class="flex items-center h-5">
+          <%= f.radio_button :role, 'admin', class: "focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300", checked: user.role == 'admin' %>
+        </div>
+        <div class="ml-3">
+          <%= f.label :role, "Administrador", value: 'admin', class: "font-medium text-gray-900 cursor-pointer" %>
+          <p class="text-sm text-gray-500">Acceso completo al sistema, incluyendo configuración y gestión de usuarios.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

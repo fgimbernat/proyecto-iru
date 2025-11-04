@@ -1,0 +1,29 @@
+<details class="border border-gray-200 rounded-lg">
+  <summary class="cursor-pointer p-4 bg-gray-50 hover:bg-gray-100 font-medium text-gray-900 flex justify-between items-center">
+    Redes sociales
+    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </summary>
+  <div class="p-4 space-y-4">
+    <div>
+      <%= ef.label :linkedin, "LinkedIn", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= ef.text_field :linkedin, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "LinkedIn" %>
+    </div>
+
+    <div>
+      <%= ef.label :instagram, "Instagram", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= ef.text_field :instagram, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "Instagram" %>
+    </div>
+
+    <div>
+      <%= ef.label :facebook, "Facebook", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= ef.text_field :facebook, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "Facebook" %>
+    </div>
+
+    <div>
+      <%= ef.label :twitter, "Twitter", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= ef.text_field :twitter, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "Twitter" %>
+    </div>
+  </div>
+</details>

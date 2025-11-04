@@ -1,0 +1,59 @@
+<details class="border border-gray-200 rounded-lg">
+  <summary class="cursor-pointer p-4 bg-gray-50 hover:bg-gray-100 font-medium text-gray-900 flex justify-between items-center">
+    Campos personalizados
+    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </summary>
+  <div class="p-4 space-y-4">
+    <div>
+      <%= ef.label :team, "Equipo", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= ef.text_field :team, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "Equipo" %>
+    </div>
+
+    <div>
+      <%= ef.label :education, "Educación", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= ef.text_field :education, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "Educación" %>
+    </div>
+
+    <div>
+      <%= ef.label :position_title, "Cargo", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= ef.text_field :position_title, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "Cargo" %>
+    </div>
+
+    <div>
+      <%= ef.label :civil_status, "Estado civil", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= ef.text_field :civil_status, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "Estado civil" %>
+    </div>
+
+    <div>
+      <%= ef.label :languages, "Idiomas", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= ef.text_field :languages, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "Idiomas" %>
+    </div>
+
+    <div>
+      <%= ef.label :lives_in, "Vive en", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= ef.text_field :lives_in, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "Vive en" %>
+    </div>
+
+    <div>
+      <%= ef.label :salary_2023, "Salario 2023", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= ef.number_field :salary_2023, step: 0.01, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "Salario 2023" %>
+    </div>
+
+    <div>
+      <%= ef.label :salary_2024, "Salario 2024", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= ef.number_field :salary_2024, step: 0.01, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "Salario 2024" %>
+    </div>
+
+    <div>
+      <%= ef.label :emergency_contact, "Contacto de emergencia", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= ef.text_field :emergency_contact, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "Contacto de emergencia" %>
+    </div>
+
+    <div>
+      <%= ef.label :books, "Libros", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= ef.text_area :books, rows: 3, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "Libros" %>
+    </div>
+  </div>
+</details>

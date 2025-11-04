@@ -1,0 +1,75 @@
+<details class="border border-gray-200 rounded-lg">
+  <summary class="cursor-pointer p-4 bg-gray-50 hover:bg-gray-100 font-medium text-gray-900 flex justify-between items-center">
+    Trabajo
+    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </summary>
+  <div class="p-4 space-y-4">
+    <div>
+      <%= ef.label :hire_date, "Fecha de contratación", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= ef.date_field :hire_date, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
+    </div>
+
+    <div>
+      <%= ef.label :manager_id, "Jefe directo", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= ef.select :manager_id, 
+          options_from_collection_for_select(@potential_managers, :id, :full_name, ef.object.manager_id),
+          { include_blank: "Jefe directo" },
+          class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
+    </div>
+
+    <div>
+      <%= ef.label :department_id, "Departamento", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= ef.select :department_id, 
+          options_from_collection_for_select(@departments, :id, :name, ef.object.department_id),
+          { include_blank: "Departamento" },
+          class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
+    </div>
+
+    <div>
+      <%= ef.label :position_id, "Puesto", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= ef.select :position_id, 
+          options_from_collection_for_select(@positions, :id, :title, ef.object.position_id),
+          { include_blank: "Puesto" },
+          class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
+    </div>
+
+    <div 
+      data-controller="office-filter"
+      data-office-filter-offices-value="<%= @offices.group_by(&:region_id).transform_values { |offices| offices.map { |o| { id: o.id, name: o.name } } }.to_json.html_safe %>"
+      data-office-filter-selected-office-value="<%= ef.object.office_id %>">
+      <div>
+        <%= label_tag :region_filter, "Región", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= select_tag :region_filter,
+            options_from_collection_for_select(@regions, :id, :name, ef.object.office&.region_id),
+            {
+              include_blank: "Seleccionar región",
+              class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm",
+              data: { 
+                office_filter_target: "region",
+                action: "change->office-filter#updateOffices"
+              }
+            } %>
+      </div>
+
+      <div class="mt-4">
+        <%= ef.label :office_id, "Sede", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= ef.select :office_id,
+            [],
+            { include_blank: "Seleccionar sede" },
+            {
+              class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm",
+              disabled: ef.object.office&.region_id.blank?,
+              data: { office_filter_target: "office" }
+            } %>
+        <p 
+          class="mt-1 text-sm text-gray-500" 
+          data-office-filter-target="hint"
+          style="<%= 'display: none;' unless ef.object.office&.region_id.blank? %>">
+          Primero selecciona una región
+        </p>
+      </div>
+    </div>
+  </div>
+</details>

@@ -79,6 +79,8 @@ module Admin
       @positions = Position.order(:title)
       @potential_managers = Employee.where.not(id: @user&.employee&.id).order(:first_name)
       @segmentations = Segmentation.includes(:segmentation_items).all.order(:name)
+      @regions = Region.where(active: true).order(:name)
+      @offices = Office.where(active: true).includes(:region).order(:name)
     end
 
     def user_params
@@ -113,6 +115,7 @@ module Admin
           :position_id,
           :department_id,
           :manager_id,
+          :office_id,
           :salary,
           :currency,
           :linkedin,
