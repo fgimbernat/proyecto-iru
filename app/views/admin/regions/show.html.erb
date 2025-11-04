@@ -1,188 +1,190 @@
 <% content_for :page_title, @region.name %>
 
-<div class="px-4 sm:px-6 lg:px-8 py-8">
-  <!-- Header -->
-  <div class="mb-8">
-    <%= link_to admin_regions_path, class: "inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-4" do %>
-      <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<div class="detail-container">
+  <!-- Navigation -->
+  <div class="detail-nav">
+    <%= link_to admin_regions_path, class: "detail-back-link" do %>
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
       </svg>
       Volver a regiones
     <% end %>
-    
-    <div class="flex items-center justify-between">
-      <div>
-        <h1 class="text-3xl font-bold text-gray-900"><%= @region.name %></h1>
+  </div>
+  
+  <!-- Header -->
+  <div class="detail-header">
+    <div class="detail-header-row">
+      <div class="detail-title-section">
+        <h1 class="detail-title"><%= @region.name %></h1>
         <% if @region.description.present? %>
-          <p class="mt-2 text-gray-600"><%= @region.description %></p>
+          <p class="detail-subtitle"><%= @region.description %></p>
         <% end %>
       </div>
       
-      <div class="flex items-center gap-3">
+      <div class="detail-actions">
         <%= render BadgeComponent.new(type: @region.active? ? :success : :neutral) do %>
           <%= @region.active? ? 'Activa' : 'Inactiva' %>
         <% end %>
         
         <% if policy(@region).update? %>
-          <%= link_to edit_admin_region_path(@region) do %>
-            <%= render ButtonComponent.new(variant: :outline) do %>
-              Editar
-            <% end %>
+          <%= render ButtonComponent.new(variant: :outline, size: :md, href: edit_admin_region_path(@region)) do %>
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            Editar
           <% end %>
         <% end %>
       </div>
     </div>
   </div>
 
-  <!-- Stats -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
-      <div class="flex items-center">
-        <div class="flex-shrink-0">
-          <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-          </svg>
-        </div>
-        <div class="ml-5">
-          <p class="text-sm font-medium text-gray-500">Sedes</p>
-          <p class="text-2xl font-semibold text-gray-900"><%= @region.offices_count %></p>
-        </div>
+  <!-- Stats Grid -->
+  <div class="detail-grid">
+    <div class="detail-stat-card">
+      <div class="detail-stat-icon stat-blue">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        </svg>
+      </div>
+      <div class="detail-stat-content">
+        <p class="detail-stat-label">Sedes</p>
+        <p class="detail-stat-value"><%= @region.offices_count %></p>
       </div>
     </div>
 
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
-      <div class="flex items-center">
-        <div class="flex-shrink-0">
-          <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-        </div>
-        <div class="ml-5">
-          <p class="text-sm font-medium text-gray-500">Festivos</p>
-          <p class="text-2xl font-semibold text-gray-900"><%= @region.holidays_count %></p>
-        </div>
+    <div class="detail-stat-card">
+      <div class="detail-stat-icon stat-green">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      </div>
+      <div class="detail-stat-content">
+        <p class="detail-stat-label">Festivos</p>
+        <p class="detail-stat-value"><%= @region.holidays_count %></p>
       </div>
     </div>
 
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
-      <div class="flex items-center">
-        <div class="flex-shrink-0">
-          <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-          </svg>
-        </div>
-        <div class="ml-5">
-          <p class="text-sm font-medium text-gray-500">Empleados</p>
-          <p class="text-2xl font-semibold text-gray-900"><%= @region.employees_count %></p>
-        </div>
+    <div class="detail-stat-card">
+      <div class="detail-stat-icon stat-purple">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      </div>
+      <div class="detail-stat-content">
+        <p class="detail-stat-label">Empleados</p>
+        <p class="detail-stat-value"><%= @region.employees_count %></p>
       </div>
     </div>
   </div>
 
-  <!-- Sedes -->
-  <div class="bg-white rounded-xl border border-gray-200 mb-8">
-    <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-      <h2 class="text-lg font-semibold text-gray-900">Sedes</h2>
+  <!-- Sedes Section -->
+  <div class="detail-section">
+    <div class="detail-section-header" style="display: flex; align-items: center; justify-content: space-between;">
+      <h2 class="detail-section-title">Sedes (<%= @region.offices_count %>)</h2>
       <% if policy(Office).create? %>
-        <%= link_to new_admin_office_path(region_id: @region.id) do %>
-          <%= render ButtonComponent.new(variant: :primary, size: :sm) do %>
-            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-            Nueva Sede
-          <% end %>
+        <%= render ButtonComponent.new(variant: :primary, size: :sm, href: new_admin_office_path(region_id: @region.id)) do %>
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          Nueva Sede
         <% end %>
       <% end %>
     </div>
     
-    <div class="overflow-x-auto">
-      <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
-          <tr>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nombre</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Dirección</th>
-            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Empleados</th>
-            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Estado</th>
-            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Acciones</th>
-          </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-          <% @offices.each do |office| %>
-            <tr class="hover:bg-gray-50">
-              <td class="px-6 py-4">
-                <div class="text-sm font-medium text-gray-900"><%= office.name %></div>
-              </td>
-              <td class="px-6 py-4">
-                <div class="text-sm text-gray-600"><%= office.address || '-' %></div>
-              </td>
-              <td class="px-6 py-4 text-center">
-                <span class="text-sm text-gray-900"><%= office.employees_count %></span>
-              </td>
-              <td class="px-6 py-4 text-center">
-                <%= render BadgeComponent.new(type: office.active? ? :success : :neutral) do %>
-                  <%= office.active? ? 'Activa' : 'Inactiva' %>
-                <% end %>
-              </td>
-              <td class="px-6 py-4 text-right">
-                <%= link_to 'Ver', admin_office_path(office), class: "text-blue-600 hover:text-blue-900 text-sm" %>
-              </td>
+    <% if @offices.any? %>
+      <div class="resource-table-wrapper">
+        <table class="resource-table">
+          <thead class="resource-table-header">
+            <tr>
+              <th>Nombre</th>
+              <th>Dirección</th>
+              <th class="text-center">Empleados</th>
+              <th class="text-center">Estado</th>
+              <th class="text-right">Acciones</th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-    
-    <% if @offices.empty? %>
-      <div class="text-center py-12">
-        <p class="text-gray-500">No hay sedes asociadas a esta región</p>
+          </thead>
+          <tbody class="resource-table-body">
+            <% @offices.each do |office| %>
+              <tr>
+                <td>
+                  <div class="cell-title"><%= office.name %></div>
+                </td>
+                <td>
+                  <% if office.address.present? %>
+                    <%= office.address %>
+                  <% else %>
+                    <span class="cell-muted">—</span>
+                  <% end %>
+                </td>
+                <td class="text-center">
+                  <strong><%= office.employees_count %></strong>
+                </td>
+                <td class="text-center">
+                  <%= render BadgeComponent.new(type: office.active? ? :success : :neutral) do %>
+                    <%= office.active? ? 'Activa' : 'Inactiva' %>
+                  <% end %>
+                </td>
+                <td class="text-right">
+                  <%= link_to 'Ver detalles', admin_office_path(office), class: "text-sm text-blue-600 hover:text-blue-700 font-medium" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <div class="detail-empty-message">
+        <svg class="w-12 h-12 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        </svg>
+        <p>No hay sedes asociadas a esta región</p>
       </div>
     <% end %>
   </div>
 
-  <!-- Festivos del año actual -->
-  <div class="bg-white rounded-xl border border-gray-200">
-    <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-      <h2 class="text-lg font-semibold text-gray-900">Festivos <%= Date.current.year %></h2>
+  <!-- Festivos Section -->
+  <div class="detail-section">
+    <div class="detail-section-header" style="display: flex; align-items: center; justify-content: space-between;">
+      <h2 class="detail-section-title">Festivos <%= Date.current.year %> (<%= @holidays.count %>)</h2>
       <% if policy(Holiday).create? %>
-        <%= link_to new_admin_holiday_path(region_id: @region.id) do %>
-          <%= render ButtonComponent.new(variant: :primary, size: :sm) do %>
-            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-            Nuevo Festivo
-          <% end %>
+        <%= render ButtonComponent.new(variant: :primary, size: :sm, href: new_admin_holiday_path(region_id: @region.id)) do %>
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          Nuevo Festivo
         <% end %>
       <% end %>
     </div>
     
-    <div class="p-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <% @holidays.each do |holiday| %>
-          <div class="border border-gray-200 rounded-lg p-4">
-            <div class="flex items-start justify-between">
-              <div>
-                <h3 class="text-sm font-semibold text-gray-900"><%= holiday.name %></h3>
-                <p class="text-sm text-gray-600 mt-1"><%= I18n.l(holiday.date, format: :long) %></p>
+    <% if @holidays.any? %>
+      <div class="detail-section-body">
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px;">
+          <% @holidays.each do |holiday| %>
+            <div style="border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px; background: white; transition: all 0.2s ease;">
+              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;">
+                <div style="flex: 1; min-width: 0;">
+                  <h3 style="font-size: 0.9375rem; font-weight: 600; color: #111827; margin: 0 0 6px 0;"><%= holiday.name %></h3>
+                  <p style="font-size: 0.875rem; color: #6b7280; margin: 0;"><%= I18n.l(holiday.date, format: :long) %></p>
+                </div>
+                <%= render BadgeComponent.new(type: holiday.upcoming? ? :info : :neutral) do %>
+                  <%= holiday.upcoming? ? 'Próximo' : 'Pasado' %>
+                <% end %>
               </div>
-              <%= render BadgeComponent.new(type: holiday.upcoming? ? :info : :neutral, size: :sm) do %>
-                <%= holiday.upcoming? ? 'Próximo' : 'Pasado' %>
-              <% end %>
             </div>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
+        
+        <div style="margin-top: 16px; text-align: center; padding-top: 16px; border-top: 1px solid #f3f4f6;">
+          <%= link_to "Ver todos los festivos →", admin_holidays_path(region_id: @region.id), class: "text-sm text-blue-600 hover:text-blue-700 font-medium" %>
+        </div>
       </div>
-      
-      <% if @holidays.empty? %>
-        <div class="text-center py-8">
-          <p class="text-gray-500">No hay festivos registrados para este año</p>
-        </div>
-      <% end %>
-      
-      <% if @holidays.any? %>
-        <div class="mt-4 text-center">
-          <%= link_to "Ver todos los festivos", admin_holidays_path(region_id: @region.id), class: "text-sm text-blue-600 hover:text-blue-900" %>
-        </div>
-      <% end %>
-    </div>
+    <% else %>
+      <div class="detail-empty-message">
+        <svg class="w-12 h-12 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        <p>No hay festivos registrados para este año</p>
+      </div>
+    <% end %>
   </div>
 </div>

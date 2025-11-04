@@ -9,6 +9,10 @@ export default class extends Controller {
   }
 
   connect() {
+    console.log('OfficeFilter controller connected!', {
+      offices: this.officesValue,
+      selectedOffice: this.selectedOfficeValue
+    })
     this.updateOffices()
   }
 

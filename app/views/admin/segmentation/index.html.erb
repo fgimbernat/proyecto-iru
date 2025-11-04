@@ -1,23 +1,25 @@
 <% content_for :page_title, "Segmentación" %>
 
-<div class="px-4 sm:px-6 lg:px-8 py-8" x-data="{ 
+<div class="policy-container" x-data="{ 
   showNewSegmentationModal: false,
   newSegmentationName: '',
   newSegmentationVisibility: 'all'
 }">
   <!-- Header -->
-  <div class="flex items-center justify-between mb-10">
-    <div>
-      <h1 class="text-3xl font-bold text-gray-900">Segmentación</h1>
-      <p class="mt-1 text-sm text-gray-500">Organiza las categorías de tu equipo</p>
+  <div class="policy-header">
+    <div class="policy-title-section">
+      <h1 class="policy-title">Segmentación</h1>
+      <p class="policy-subtitle">Organiza las categorías de tu equipo</p>
     </div>
     
-    <%= render ButtonComponent.new(variant: :primary, size: :lg, data: { action: "click->toggle-modal" }, '@click': 'showNewSegmentationModal = true') do %>
-      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-      </svg>
-      Nueva segmentación
-    <% end %>
+    <div>
+      <%= render ButtonComponent.new(variant: :primary, size: :md, '@click': 'showNewSegmentationModal = true') do %>
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Nueva segmentación
+      <% end %>
+    </div>
   </div>
 
   <!-- Modal Nueva Segmentación -->
@@ -61,11 +63,30 @@
   <% end %>
 
   <!-- Grid de segmentaciones -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-    <% @segmentations.each do |segmentation| %>
-      <%= render SegmentationCardComponent.new(segmentation: segmentation) %>
-    <% end %>
-  </div>
+  <% if @segmentations.any? %>
+    <div class="policy-grid">
+      <% @segmentations.each do |segmentation| %>
+        <%= render SegmentationCardComponent.new(segmentation: segmentation) %>
+      <% end %>
+    </div>
+  <% else %>
+    <!-- Empty State -->
+    <div class="policy-empty-state">
+      <div class="policy-empty-icon">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z" />
+        </svg>
+      </div>
+      <h3 class="policy-empty-title">No hay segmentaciones creadas</h3>
+      <p class="policy-empty-description">Comienza creando tu primera segmentación</p>
+      <%= render ButtonComponent.new(variant: :primary, size: :md, '@click': 'showNewSegmentationModal = true') do %>
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Nueva segmentación
+      <% end %>
+    </div>
+  <% end %>
 </div>
 
 <!-- Modal de usuarios -->

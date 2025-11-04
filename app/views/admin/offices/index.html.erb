@@ -1,135 +1,163 @@
 <% content_for :page_title, "Sedes" %>
 
-<div class="px-4 sm:px-6 lg:px-8 py-8">
+<div class="resource-container">
   <!-- Header -->
-  <div class="flex items-center justify-between mb-8">
-    <div>
-      <h1 class="text-3xl font-bold text-gray-900">Sedes</h1>
-      <p class="mt-2 text-gray-600">Gestiona las sedes y oficinas de tu organización</p>
+  <div class="resource-header">
+    <div class="resource-title-section">
+      <h1 class="resource-title">Sedes</h1>
+      <p class="resource-subtitle">Gestiona las sedes y oficinas de tu organización</p>
     </div>
     
-    <% if policy(Office).create? %>
-      <%= link_to new_admin_office_path, class: "inline-flex items-center px-5 py-2.5 border border-transparent rounded-xl text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-all shadow-md hover:shadow-lg" do %>
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        Nueva Sede
-      <% end %>
-    <% end %>
-  </div>
-
-  <!-- Filtros -->
-  <div class="bg-white rounded-lg border border-gray-200 p-4 mb-6">
-    <%= form_with url: admin_offices_path, method: :get, class: "flex items-center gap-4" do |f| %>
-      <div class="flex-1">
-        <%= f.label :region_id, "Filtrar por región:", class: "block text-sm font-medium text-gray-700 mb-1" %>
-        <%= f.select :region_id, 
-          options_from_collection_for_select(@regions, :id, :name, params[:region_id]),
-          { include_blank: "Todas las regiones" },
-          class: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
-      </div>
-      
-      <div class="pt-6">
-        <%= render ButtonComponent.new(variant: :primary, type: "submit") do %>
-          Filtrar
-        <% end %>
-      </div>
-    <% end %>
-  </div>
-
-  <!-- Lista de sedes -->
-  <div class="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden">
-    <table class="min-w-full divide-y divide-gray-200">
-      <thead class="bg-gray-50">
-        <tr>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Región</th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dirección</th>
-          <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Empleados</th>
-          <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
-          <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
-        </tr>
-      </thead>
-      <tbody class="bg-white divide-y divide-gray-200">
-        <% @offices.each do |office| %>
-          <tr class="hover:bg-gray-50 transition-colors">
-            <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-sm font-medium text-gray-900"><%= office.name %></div>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-600"><%= office.region_name %></div>
-            </td>
-            <td class="px-6 py-4">
-              <div class="text-sm text-gray-600"><%= office.address&.truncate(50) || '-' %></div>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-center">
-              <span class="text-sm text-gray-900"><%= office.employees_count %></span>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-center">
-              <%= render BadgeComponent.new(type: office.active? ? :success : :neutral) do %>
-                <%= office.active? ? 'Activa' : 'Inactiva' %>
-              <% end %>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-              <div class="flex items-center justify-end gap-2">
-                <%= link_to admin_office_path(office), class: "text-blue-600 hover:text-blue-900" do %>
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                <% end %>
-                
-                <% if policy(office).update? %>
-                  <%= link_to edit_admin_office_path(office), class: "text-gray-600 hover:text-gray-900" do %>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                    </svg>
-                  <% end %>
-                <% end %>
-                
-                <% if policy(office).destroy? %>
-                  <%= button_to admin_office_path(office), 
-                    method: :delete,
-                    data: { turbo_confirm: "¿Estás seguro de eliminar esta sede?" },
-                    class: "text-red-600 hover:text-red-900" do %>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                  <% end %>
-                <% end %>
-              </div>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Paginación -->
-  <% if @offices.total_pages > 1 %>
-    <div class="mt-6">
-      <%= paginate @offices %>
-    </div>
-  <% end %>
-
-  <!-- Estado vacío -->
-  <% if @offices.empty? %>
-    <div class="text-center py-16 bg-white rounded-xl border border-gray-200">
-      <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
-        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-        </svg>
-      </div>
-      <h3 class="text-lg font-medium text-gray-900 mb-2">No hay sedes creadas</h3>
-      <p class="text-gray-500 mb-6">Comienza creando tu primera sede</p>
+    <div class="resource-actions">
       <% if policy(Office).create? %>
-        <%= link_to new_admin_office_path, class: "inline-flex items-center px-5 py-2.5 border border-transparent rounded-xl text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-all shadow-md hover:shadow-lg" do %>
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <%= render ButtonComponent.new(variant: :primary, size: :md, href: new_admin_office_path) do %>
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
           </svg>
           Nueva Sede
         <% end %>
       <% end %>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="resource-filters-card">
+    <div class="resource-filters-header">
+      <%= form_with url: admin_offices_path, method: :get, class: "resource-filters-form" do |f| %>
+        <div class="resource-filter-group">
+          <%= f.label :region_id, "Región", class: "resource-filter-label" %>
+          <%= f.select :region_id, 
+            options_from_collection_for_select(@regions, :id, :name, params[:region_id]),
+            { include_blank: "Todas las regiones" },
+            class: "resource-filter-select" %>
+        </div>
+        
+        <div style="padding-top: 22px;">
+          <%= render ButtonComponent.new(variant: :primary, type: "submit", size: :md) do %>
+            Filtrar
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="resource-count">
+      <span class="count-number"><%= @offices.count %></span>
+      <span><%= @offices.count == 1 ? 'sede' : 'sedes' %></span>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <% if @offices.any? %>
+    <div class="resource-table-card">
+      <div class="resource-table-wrapper">
+        <table class="resource-table">
+          <thead class="resource-table-header">
+            <tr>
+              <th>Nombre</th>
+              <th>Región</th>
+              <th>Dirección</th>
+              <th class="text-center">Empleados</th>
+              <th class="text-center">Estado</th>
+              <th class="text-right">Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="resource-table-body">
+            <% @offices.each do |office| %>
+              <tr>
+                <td>
+                  <div class="cell-title"><%= office.name %></div>
+                </td>
+                <td><%= office.region_name %></td>
+                <td>
+                  <% if office.address.present? %>
+                    <%= office.address.truncate(50) %>
+                  <% else %>
+                    <span class="cell-muted">—</span>
+                  <% end %>
+                </td>
+                <td class="text-center">
+                  <strong><%= office.employees_count %></strong>
+                </td>
+                <td class="text-center">
+                  <%= render BadgeComponent.new(type: office.active? ? :success : :neutral) do %>
+                    <%= office.active? ? 'Activa' : 'Inactiva' %>
+                  <% end %>
+                </td>
+                <td>
+                  <div class="resource-actions-cell">
+                    <%= link_to admin_office_path(office), class: "resource-action-link action-view", title: "Ver detalles" do %>
+                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    <% end %>
+                    
+                    <% if policy(office).update? %>
+                      <%= link_to edit_admin_office_path(office), class: "resource-action-link action-edit", title: "Editar" do %>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                      <% end %>
+                    <% end %>
+                    
+                    <% if policy(office).destroy? %>
+                      <%= button_to admin_office_path(office), 
+                        method: :delete,
+                        data: { turbo_confirm: "¿Estás seguro de eliminar esta sede?" },
+                        class: "resource-action-link action-delete",
+                        title: "Eliminar" do %>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <% if @offices.total_pages > 1 %>
+      <div class="mt-6">
+        <%= paginate @offices %>
+      </div>
+    <% end %>
+  <% else %>
+    <!-- Empty State -->
+    <div class="resource-table-card">
+      <div class="resource-empty-state">
+        <div class="resource-empty-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
+        </div>
+        <h3 class="resource-empty-title">
+          <% if params[:region_id].present? %>
+            No hay sedes en esta región
+          <% else %>
+            No hay sedes creadas
+          <% end %>
+        </h3>
+        <p class="resource-empty-description">
+          <% if params[:region_id].present? %>
+            Intenta seleccionar otra región o crea una nueva sede.
+          <% else %>
+            Comienza creando tu primera sede para la organización.
+          <% end %>
+        </p>
+        <% if policy(Office).create? %>
+          <%= render ButtonComponent.new(variant: :primary, size: :md, href: new_admin_office_path) do %>
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Nueva Sede
+          <% end %>
+        <% end %>
+      </div>
     </div>
   <% end %>
 </div>

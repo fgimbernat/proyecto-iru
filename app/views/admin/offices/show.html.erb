@@ -1,107 +1,127 @@
 <% content_for :page_title, @office.name %>
 
-<div class="px-4 sm:px-6 lg:px-8 py-8">
-  <%= link_to admin_offices_path, class: "inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-4" do %>
-    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-    </svg>
-    Volver a sedes
-  <% end %>
+<div class="detail-container">
+  <!-- Navigation -->
+  <div class="detail-nav">
+    <%= link_to admin_offices_path, class: "detail-back-link" do %>
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+      Volver a sedes
+    <% end %>
+  </div>
   
-  <div class="flex items-center justify-between mb-8">
-    <div>
-      <h1 class="text-3xl font-bold text-gray-900"><%= @office.name %></h1>
-      <p class="mt-2 text-gray-600"><%= @office.region_name %></p>
-    </div>
-    
-    <div class="flex items-center gap-3">
-      <%= render BadgeComponent.new(type: @office.active? ? :success : :neutral) do %>
-        <%= @office.active? ? 'Activa' : 'Inactiva' %>
-      <% end %>
+  <!-- Header -->
+  <div class="detail-header">
+    <div class="detail-header-row">
+      <div class="detail-title-section">
+        <h1 class="detail-title"><%= @office.name %></h1>
+        <p class="detail-subtitle"><%= @office.region_name %></p>
+      </div>
       
-      <% if policy(@office).update? %>
-        <%= link_to edit_admin_office_path(@office) do %>
-          <%= render ButtonComponent.new(variant: :outline) do %>
+      <div class="detail-actions">
+        <%= render BadgeComponent.new(type: @office.active? ? :success : :neutral) do %>
+          <%= @office.active? ? 'Activa' : 'Inactiva' %>
+        <% end %>
+        
+        <% if policy(@office).update? %>
+          <%= render ButtonComponent.new(variant: :outline, size: :md, href: edit_admin_office_path(@office)) do %>
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
             Editar
           <% end %>
         <% end %>
-      <% end %>
+      </div>
     </div>
   </div>
 
-  <!-- Información -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
-      <h2 class="text-lg font-semibold text-gray-900 mb-4">Información</h2>
+  <!-- Info Grid -->
+  <div class="detail-grid detail-grid-2">
+    <!-- Information Card -->
+    <div class="detail-info-card">
+      <div class="detail-card-header">
+        <div class="detail-card-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h2 class="detail-card-title">Información</h2>
+      </div>
       
-      <dl class="space-y-3">
-        <div>
-          <dt class="text-sm font-medium text-gray-500">Región</dt>
-          <dd class="mt-1 text-sm text-gray-900"><%= @office.region_name %></dd>
+      <div class="detail-card-body">
+        <div class="detail-field">
+          <div class="detail-field-label">Región</div>
+          <div class="detail-field-value"><%= @office.region_name %></div>
         </div>
         
         <% if @office.description.present? %>
-          <div>
-            <dt class="text-sm font-medium text-gray-500">Descripción</dt>
-            <dd class="mt-1 text-sm text-gray-900"><%= @office.description %></dd>
+          <div class="detail-field">
+            <div class="detail-field-label">Descripción</div>
+            <div class="detail-field-value"><%= @office.description %></div>
           </div>
         <% end %>
         
-        <% if @office.address.present? %>
-          <div>
-            <dt class="text-sm font-medium text-gray-500">Dirección</dt>
-            <dd class="mt-1 text-sm text-gray-900"><%= @office.address %></dd>
+        <div class="detail-field">
+          <div class="detail-field-label">Dirección</div>
+          <div class="detail-field-value <%= 'value-muted' unless @office.address.present? %>">
+            <%= @office.address.present? ? @office.address : '—' %>
           </div>
-        <% end %>
-      </dl>
+        </div>
+      </div>
     </div>
 
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
-      <div class="flex items-center">
-        <div class="flex-shrink-0">
-          <svg class="w-12 h-12 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-          </svg>
-        </div>
-        <div class="ml-5">
-          <p class="text-sm font-medium text-gray-500">Empleados asignados</p>
-          <p class="text-3xl font-semibold text-gray-900"><%= @office.employees_count %></p>
-        </div>
+    <!-- Stat Card -->
+    <div class="detail-stat-card">
+      <div class="detail-stat-icon stat-purple">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      </div>
+      <div class="detail-stat-content">
+        <p class="detail-stat-label">Empleados asignados</p>
+        <p class="detail-stat-value"><%= @office.employees_count %></p>
       </div>
     </div>
   </div>
 
-  <!-- Empleados -->
+  <!-- Employees Section -->
   <% if @employees.any? %>
-    <div class="bg-white rounded-xl border border-gray-200">
-      <div class="px-6 py-4 border-b border-gray-200">
-        <h2 class="text-lg font-semibold text-gray-900">Empleados</h2>
+    <div class="detail-section">
+      <div class="detail-section-header">
+        <h2 class="detail-section-title">Empleados (<%= @office.employees_count %>)</h2>
       </div>
       
-      <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
+      <div class="resource-table-wrapper">
+        <table class="resource-table">
+          <thead class="resource-table-header">
             <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nombre</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Posición</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Departamento</th>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Posición</th>
+              <th>Departamento</th>
             </tr>
           </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
+          <tbody class="resource-table-body">
             <% @employees.each do |employee| %>
-              <tr class="hover:bg-gray-50">
-                <td class="px-6 py-4">
-                  <div class="text-sm font-medium text-gray-900"><%= employee.full_name %></div>
+              <tr>
+                <td>
+                  <div class="cell-title"><%= employee.full_name %></div>
                 </td>
-                <td class="px-6 py-4">
-                  <div class="text-sm text-gray-600"><%= employee.email %></div>
+                <td><%= employee.email %></td>
+                <td>
+                  <% if employee.position&.title %>
+                    <%= employee.position.title %>
+                  <% else %>
+                    <span class="cell-muted">—</span>
+                  <% end %>
                 </td>
-                <td class="px-6 py-4">
-                  <div class="text-sm text-gray-600"><%= employee.position&.title || '-' %></div>
-                </td>
-                <td class="px-6 py-4">
-                  <div class="text-sm text-gray-600"><%= employee.department&.name || '-' %></div>
+                <td>
+                  <% if employee.department&.name %>
+                    <%= employee.department.name %>
+                  <% else %>
+                    <span class="cell-muted">—</span>
+                  <% end %>
                 </td>
               </tr>
             <% end %>
@@ -110,14 +130,19 @@
       </div>
       
       <% if @employees.total_pages > 1 %>
-        <div class="px-6 py-4 border-t border-gray-200">
+        <div style="padding: 16px 20px; border-top: 1px solid #e5e7eb;">
           <%= paginate @employees %>
         </div>
       <% end %>
     </div>
   <% else %>
-    <div class="bg-white rounded-xl border border-gray-200 text-center py-12">
-      <p class="text-gray-500">No hay empleados asignados a esta sede</p>
+    <div class="detail-section">
+      <div class="detail-empty-message">
+        <svg class="w-12 h-12 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+        <p>No hay empleados asignados a esta sede</p>
+      </div>
     </div>
   <% end %>
 </div>
