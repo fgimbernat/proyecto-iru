@@ -2,6 +2,8 @@
 
 module Admin
   class PolicyTypesController < ApplicationController
+    layout 'admin'
+    
     before_action :authenticate_user!
     before_action :set_policy_type, only: [:show, :edit, :update, :destroy, :toggle_status]
 

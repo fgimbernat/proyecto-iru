@@ -2,6 +2,8 @@
 
 module Admin
   class PoliciesController < ApplicationController
+    layout 'admin'
+    
     before_action :authenticate_user!
     before_action :set_policy, only: [:show, :edit, :update, :destroy, :toggle_status]
     before_action :set_policy_types, only: [:new, :edit, :create, :update]
@@ -58,10 +60,12 @@ module Admin
     def destroy
       authorize @policy
 
-      if @policy.time_off_requests.exists?
-        redirect_to admin_policies_path, 
-                    alert: 'No se puede eliminar la política porque tiene solicitudes de tiempo libre asociadas.'
-      elsif @policy.destroy
+      # TODO: Descomentar cuando se migre time_off_requests a usar policy_id
+      # if @policy.time_off_requests.exists?
+      #   redirect_to admin_policies_path, 
+      #               alert: 'No se puede eliminar la política porque tiene solicitudes de tiempo libre asociadas.'
+      # elsif @policy.destroy
+      if @policy.destroy
         redirect_to admin_policies_path, notice: 'Política eliminada exitosamente.'
       else
         redirect_to admin_policies_path, alert: 'Error al eliminar la política.'

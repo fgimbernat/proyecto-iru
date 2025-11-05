@@ -53,7 +53,8 @@ class Policy < ApplicationRecord
 
   # Associations
   belongs_to :policy_type
-  has_many :time_off_requests, dependent: :restrict_with_error
+  # TODO: Descomentar cuando se migre time_off_requests a usar policy_id
+  # has_many :time_off_requests, dependent: :restrict_with_error
 
   # Validations
   validates :name, presence: true, uniqueness: { scope: :policy_type_id }

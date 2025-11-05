@@ -18,7 +18,9 @@ class PolicyPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user.admin? && !record.time_off_requests.exists?
+    # TODO: Descomentar cuando se migre time_off_requests a usar policy_id
+    # user.admin? && !record.time_off_requests.exists?
+    user.admin?
   end
 
   def toggle_status?
