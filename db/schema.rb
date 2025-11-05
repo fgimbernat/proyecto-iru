@@ -141,6 +141,59 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_01_000004) do
     t.index ["region_id"], name: "index_offices_on_region_id"
   end
 
+  create_table "policies", force: :cascade do |t|
+    t.bigint "policy_type_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.string "entitlement_type", default: "basic_annual", null: false
+    t.decimal "annual_entitlement", precision: 10, scale: 2, default: "0.0"
+    t.string "period_type", default: "jan_dec", null: false
+    t.string "accrual_frequency", default: "annual", null: false
+    t.string "accrual_timing", default: "start_of_cycle", null: false
+    t.string "balance_precision", default: "decimals", null: false
+    t.string "proration_calculation", default: "working_days", null: false
+    t.boolean "grant_on_hire", default: false, null: false
+    t.boolean "grant_on_termination", default: false, null: false
+    t.boolean "enable_carryover", default: false, null: false
+    t.integer "carryover_limit", default: 0
+    t.boolean "carryover_expires", default: false, null: false
+    t.integer "carryover_expiration_amount", default: 1
+    t.string "carryover_expiration_unit", default: "months"
+    t.boolean "enable_max_balance", default: false, null: false
+    t.integer "max_balance", default: 0
+    t.boolean "enable_min_balance", default: false, null: false
+    t.integer "min_balance", default: 0
+    t.decimal "min_advance_days", precision: 10, scale: 2, default: "1.0"
+    t.boolean "allow_retroactive", default: true, null: false
+    t.boolean "allow_half_day", default: false, null: false
+    t.decimal "min_request_period", precision: 10, scale: 2, default: "1.0"
+    t.decimal "max_request_period", precision: 10, scale: 2, default: "1.0"
+    t.boolean "block_new_hire_requests", default: false, null: false
+    t.integer "new_hire_block_days", default: 1
+    t.string "new_hire_block_unit", default: "days"
+    t.boolean "block_employee_requests", default: false, null: false
+    t.string "attachment_requirement", default: "optional"
+    t.text "instructions"
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_policies_on_active"
+    t.index ["entitlement_type"], name: "index_policies_on_entitlement_type"
+    t.index ["name"], name: "index_policies_on_name"
+    t.index ["period_type"], name: "index_policies_on_period_type"
+    t.index ["policy_type_id"], name: "index_policies_on_policy_type_id"
+  end
+
+  create_table "policy_types", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "unit", default: "days", null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_policy_types_on_active"
+    t.index ["name"], name: "index_policy_types_on_name", unique: true
+  end
+
   create_table "positions", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -238,6 +291,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_01_000004) do
   add_foreign_key "employees", "users"
   add_foreign_key "holidays", "regions"
   add_foreign_key "offices", "regions"
+  add_foreign_key "policies", "policy_types"
   add_foreign_key "positions", "departments"
   add_foreign_key "segmentation_items", "segmentations"
   add_foreign_key "time_off_requests", "employees"

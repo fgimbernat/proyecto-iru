@@ -268,3 +268,4 @@ puts "  Employee: dev.senior@iru.com / password123"
 # Load additional seeds
 puts "\n📦 Loading additional seeds..."
 load Rails.root.join('db', 'seeds', 'regions_offices_holidays.rb')
+load Rails.root.join('db', 'seeds', 'policies.rb')

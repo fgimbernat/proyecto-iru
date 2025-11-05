@@ -14,6 +14,19 @@ Rails.application.routes.draw do
       end
     end
     
+    # Policy Types and Policies
+    resources :policy_types do
+      member do
+        patch :toggle_status
+      end
+    end
+    
+    resources :policies do
+      member do
+        patch :toggle_status
+      end
+    end
+    
     # Regions, Offices and Holidays
     resources :regions do
       member do

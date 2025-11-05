@@ -1,0 +1,326 @@
+// ============================================
+// User Form Component
+// Formularios de usuarios con tabs
+// ============================================
+
+.user-form-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.user-form-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  
+  @include respond-to(lg) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Sidebar del formulario
+.user-form-sidebar {
+  background: white;
+  border: 2px solid $color-primary;
+  border-radius: 12px;
+  padding: 24px;
+  height: fit-content;
+  position: sticky;
+  top: 80px;
+  
+  @include respond-to(lg) {
+    position: static;
+  }
+  
+  .sidebar-avatar-section {
+    text-align: center;
+    margin-bottom: 24px;
+    position: relative;
+    
+    .avatar-circle {
+      width: 128px;
+      height: 128px;
+      margin: 0 auto;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      
+      svg {
+        width: 64px;
+        height: 64px;
+        color: $color-gray-400;
+      }
+    }
+    
+    .avatar-menu-btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 4px;
+      color: $color-gray-400;
+      background: white;
+      border: 1px solid $color-gray-200;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      
+      &:hover {
+        color: $color-gray-600;
+        background: $color-gray-50;
+      }
+      
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+  
+  .sidebar-form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .sidebar-form-field {
+    .field-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: $color-gray-700;
+      margin-bottom: 6px;
+    }
+    
+    .field-input {
+      width: 100%;
+      padding: 8px 12px;
+      font-size: 0.875rem;
+      border: 1px solid $color-gray-300;
+      border-radius: 8px;
+      transition: all 0.15s ease;
+      
+      &:focus {
+        outline: none;
+        border-color: $color-primary;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      }
+      
+      &::placeholder {
+        color: $color-gray-400;
+      }
+    }
+  }
+}
+
+// Main form content con tabs
+.user-form-main {
+  background: white;
+  border: 1px solid $color-gray-200;
+  border-radius: 12px;
+  overflow: hidden;
+  
+  .form-tabs-nav {
+    display: flex;
+    border-bottom: 1px solid $color-gray-200;
+    background: $color-gray-50;
+    
+    .tab-btn {
+      flex: 1;
+      padding: 16px 12px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: $color-gray-600;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: center;
+      
+      &:hover {
+        color: $color-gray-800;
+        background: rgba(255, 255, 255, 0.5);
+      }
+      
+      &.active {
+        color: $color-primary;
+        background: white;
+        border-bottom-color: $color-primary;
+      }
+    }
+  }
+  
+  .form-tabs-content {
+    padding: 24px;
+  }
+}
+
+// Section dentro de tabs
+.form-section {
+  margin-bottom: 32px;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+  
+  .section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid $color-gray-100;
+    
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      flex-shrink: 0;
+      
+      svg {
+        width: 18px;
+        height: 18px;
+        color: $color-primary;
+      }
+    }
+    
+    .section-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: $color-gray-900;
+      margin: 0;
+    }
+  }
+  
+  .section-fields {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    
+    @include respond-to(md) {
+      grid-template-columns: 1fr;
+    }
+    
+    &.single-column {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+// Form field individual
+.form-field {
+  .field-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $color-gray-700;
+    margin-bottom: 6px;
+    
+    &.required::after {
+      content: ' *';
+      color: $color-error;
+    }
+  }
+  
+  .field-input,
+  .field-select,
+  .field-textarea {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 0.9375rem;
+    border: 1px solid $color-gray-300;
+    border-radius: 8px;
+    transition: all 0.15s ease;
+    
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    &::placeholder {
+      color: $color-gray-400;
+    }
+  }
+  
+  .field-textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .field-hint {
+    font-size: 0.8125rem;
+    color: $color-gray-500;
+    margin-top: 4px;
+  }
+  
+  .field-error {
+    font-size: 0.8125rem;
+    color: $color-error;
+    margin-top: 4px;
+  }
+}
+
+// Form actions
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 24px;
+  border-top: 1px solid $color-gray-200;
+  margin-top: 24px;
+}
+
+// Full-width field modifier
+.form-field-full {
+  grid-column: 1 / -1;
+}
+
+// Checkbox/Radio groups
+.form-checkbox-group,
+.form-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  
+  .checkbox-item,
+  .radio-item {
+    display: flex;
+    align-items: center;
+    
+    input[type="checkbox"],
+    input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      margin-right: 8px;
+      border: 1px solid $color-gray-300;
+      border-radius: 4px;
+      cursor: pointer;
+      
+      &:checked {
+        background-color: $color-primary;
+        border-color: $color-primary;
+      }
+    }
+    
+    input[type="radio"] {
+      border-radius: 50%;
+    }
+    
+    label {
+      font-size: 0.875rem;
+      color: $color-gray-700;
+      cursor: pointer;
+    }
+  }
+}

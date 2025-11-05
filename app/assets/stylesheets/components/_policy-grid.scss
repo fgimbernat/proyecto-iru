@@ -41,14 +41,18 @@
 // Grid de policies
 .policy-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   
-  @include respond-to(lg) {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  @media (max-width: #{$breakpoint-xl - 1px}) {
+    grid-template-columns: repeat(3, 1fr);
   }
   
-  @include respond-to(sm) {
+  @media (max-width: #{$breakpoint-lg - 1px}) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (max-width: #{$breakpoint-sm - 1px}) {
     grid-template-columns: 1fr;
   }
 }

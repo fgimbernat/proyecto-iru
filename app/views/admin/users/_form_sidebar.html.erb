@@ -1,49 +1,49 @@
-<div class="bg-gray-50 rounded-lg border-2 border-blue-500 p-6">
+<div class="user-form-sidebar">
   <!-- Avatar -->
-  <div class="mb-6 text-center relative">
-    <div class="mx-auto h-32 w-32 rounded-full bg-gray-300 flex items-center justify-center relative">
-      <svg class="h-16 w-16 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+  <div class="sidebar-avatar-section">
+    <div class="avatar-circle">
+      <svg fill="currentColor" viewBox="0 0 24 24">
         <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
       </svg>
     </div>
     <!-- Menú de tres puntos -->
-    <button type="button" class="absolute top-0 right-0 p-1 text-gray-400 hover:text-gray-600">
-      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+    <button type="button" class="avatar-menu-btn">
+      <svg fill="currentColor" viewBox="0 0 20 20">
         <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
       </svg>
     </button>
   </div>
 
   <%= f.fields_for :employee do |ef| %>
-    <div class="space-y-4">
-      <div>
-        <%= ef.label :first_name, "Nombre", class: "block text-sm font-medium text-gray-700 mb-1" %>
-        <%= ef.text_field :first_name, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "Nombre" %>
+    <div class="sidebar-form-fields">
+      <div class="sidebar-form-field">
+        <%= ef.label :first_name, "Nombre", class: "field-label" %>
+        <%= ef.text_field :first_name, class: "field-input", placeholder: "Nombre" %>
       </div>
 
-      <div>
-        <%= ef.label :last_name, "Apellido", class: "block text-sm font-medium text-gray-700 mb-1" %>
-        <%= ef.text_field :last_name, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "Apellido" %>
+      <div class="sidebar-form-field">
+        <%= ef.label :last_name, "Apellido", class: "field-label" %>
+        <%= ef.text_field :last_name, class: "field-input", placeholder: "Apellido" %>
       </div>
 
-      <div>
-        <%= ef.label :middle_name, "Apodo", class: "block text-sm font-medium text-gray-700 mb-1" %>
-        <%= ef.text_field :middle_name, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "Apodo" %>
+      <div class="sidebar-form-field">
+        <%= ef.label :middle_name, "Apodo", class: "field-label" %>
+        <%= ef.text_field :middle_name, class: "field-input", placeholder: "Apodo" %>
       </div>
 
-      <div>
-        <%= f.label :email, "Usuario", class: "block text-sm font-medium text-gray-700 mb-1" %>
-        <%= f.text_field :email, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "usuario@ejemplo.com" %>
+      <div class="sidebar-form-field">
+        <%= f.label :email, "Usuario", class: "field-label" %>
+        <%= f.text_field :email, class: "field-input", placeholder: "usuario@ejemplo.com" %>
       </div>
 
-      <div>
-        <%= f.label :password, "Contraseña", class: "block text-sm font-medium text-gray-700 mb-1" %>
-        <%= f.password_field :password, autocomplete: "new-password", class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "••••••••" %>
+      <div class="sidebar-form-field">
+        <%= f.label :password, "Contraseña", class: "field-label" %>
+        <%= f.password_field :password, autocomplete: "new-password", class: "field-input", placeholder: "••••••••" %>
       </div>
 
-      <div>
-        <%= ef.label :email, "Email", class: "block text-sm font-medium text-gray-700 mb-1" %>
-        <%= ef.email_field :email, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "email@ejemplo.com" %>
+      <div class="sidebar-form-field">
+        <%= ef.label :email, "Email", class: "field-label" %>
+        <%= ef.email_field :email, class: "field-input", placeholder: "email@ejemplo.com" %>
       </div>
     </div>
   <% end %>

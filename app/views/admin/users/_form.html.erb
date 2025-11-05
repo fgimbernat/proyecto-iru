@@ -1,67 +1,69 @@
-<%= form_with(model: [:admin, user], local: true, class: "space-y-6") do |f| %>
-  <!-- Errores del formulario -->
-  <% if user.errors.any? %>
-    <%= render AlertComponent.new(type: :error, dismissible: false) do %>
-      <h3 class="text-sm font-medium mb-2">
-        <%= pluralize(user.errors.count, "error") %> impidieron guardar este usuario:
-      </h3>
-      <ul class="list-disc pl-5 space-y-1 text-sm">
-        <% user.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+<div class="user-form-container">
+  <%= form_with(model: [:admin, user], local: true) do |f| %>
+    <!-- Errores del formulario -->
+    <% if user.errors.any? %>
+      <div style="margin-bottom: 24px;">
+        <%= render AlertComponent.new(type: :error, dismissible: false) do %>
+          <h3 class="text-sm font-medium mb-2">
+            <%= pluralize(user.errors.count, "error") %> impidieron guardar este usuario:
+          </h3>
+          <ul class="list-disc pl-5 space-y-1 text-sm">
+            <% user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
         <% end %>
-      </ul>
+      </div>
     <% end %>
-  <% end %>
 
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-    <!-- Columna Izquierda: Información Básica -->
-    <div class="lg:col-span-1">
-      <%= render 'form_sidebar', f: f, user: user %>
-    </div>
+    <div class="user-form-grid">
+      <!-- Sidebar: Información Básica -->
+      <div>
+        <%= render 'form_sidebar', f: f, user: user %>
+      </div>
 
-    <!-- Columna Derecha: Tabs de Información -->
-    <div class="lg:col-span-2">
-      <div x-data="{ activeTab: 'general' }" class="bg-white rounded-lg border border-gray-200">
-        <!-- Tabs Navigation -->
-        <div class="border-b border-gray-200">
-          <nav class="-mb-px flex" aria-label="Tabs">
+      <!-- Main: Tabs de Información -->
+      <div>
+        <div x-data="{ activeTab: 'general' }" class="user-form-main">
+          <!-- Tabs Navigation -->
+          <nav class="form-tabs-nav">
             <button 
               type="button" 
               @click="activeTab = 'general'" 
-              :class="activeTab === 'general' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" 
-              class="w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm">
+              :class="activeTab === 'general' ? 'active' : ''" 
+              class="tab-btn">
               General
             </button>
             <button 
               type="button" 
               @click="activeTab = 'segmentacion'" 
-              :class="activeTab === 'segmentacion' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" 
-              class="w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm">
+              :class="activeTab === 'segmentacion' ? 'active' : ''" 
+              class="tab-btn">
               Segmentación
             </button>
             <button 
               type="button" 
               @click="activeTab = 'permisos'" 
-              :class="activeTab === 'permisos' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" 
-              class="w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm">
+              :class="activeTab === 'permisos' ? 'active' : ''" 
+              class="tab-btn">
               Permisos
             </button>
           </nav>
-        </div>
 
-        <!-- Tab Content -->
-        <div class="p-6">
-          <%= render 'form_tab_general', f: f, user: user %>
-          <%= render 'form_tab_segmentacion', f: f %>
-          <%= render 'form_tab_permisos', f: f, user: user %>
+          <!-- Tab Content -->
+          <div class="form-tabs-content">
+            <%= render 'form_tab_general', f: f, user: user %>
+            <%= render 'form_tab_segmentacion', f: f %>
+            <%= render 'form_tab_permisos', f: f, user: user %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Acciones -->
-  <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200">
-    <%= link_to "Cancelar", admin_users_path, class: "px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
-    <%= f.submit "Guardar", class: "px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
-  </div>
-<% end %>
+    <!-- Acciones -->
+    <div class="form-actions">
+      <%= link_to "Cancelar", admin_users_path, class: "btn btn--ghost btn--md" %>
+      <%= f.submit "Guardar", class: "btn btn--primary btn--md" %>
+    </div>
+  <% end %>
+</div>
