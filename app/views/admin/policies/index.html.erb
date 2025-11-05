@@ -1,0 +1,194 @@
+<% content_for :page_title, "Políticas de Tiempo Libre" %>
+
+<div class="resource-container">
+  <!-- Header -->
+  <div class="resource-header">
+    <div class="resource-title-section">
+      <h1 class="resource-title">Políticas de Tiempo Libre</h1>
+      <p class="resource-subtitle">Gestiona las políticas de vacaciones, licencias y días libres</p>
+    </div>
+    
+    <div class="resource-actions">
+      <% if policy(Policy).create? %>
+        <%= render ButtonComponent.new(variant: :primary, size: :md, href: new_admin_policy_path) do %>
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          Nueva Política
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="resource-filters-card">
+    <div class="resource-count">
+      <span class="count-number"><%= @policies.total_count %></span>
+      <span><%= @policies.total_count == 1 ? 'política' : 'políticas' %></span>
+    </div>
+
+    <!-- Filter by Policy Type -->
+    <% if PolicyType.exists? %>
+      <div class="flex items-center gap-2">
+        <label class="text-sm font-medium text-gray-700">Filtrar por tipo:</label>
+        <div class="flex gap-2">
+          <%= link_to admin_policies_path, 
+              class: "px-3 py-1.5 text-sm rounded-md transition-colors #{params[:policy_type_id].blank? ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" do %>
+            Todos
+          <% end %>
+          
+          <% PolicyType.active.ordered_by_name.each do |pt| %>
+            <%= link_to admin_policies_path(policy_type_id: pt.id),
+                class: "px-3 py-1.5 text-sm rounded-md transition-colors #{params[:policy_type_id].to_i == pt.id ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" do %>
+              <%= pt.name %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Table -->
+  <% if @policies.any? %>
+    <div class="resource-table-card">
+      <div class="resource-table-wrapper">
+        <table class="resource-table">
+          <thead class="resource-table-header">
+            <tr>
+              <th>Nombre</th>
+              <th>Tipo</th>
+              <th class="text-center">Derecho</th>
+              <th class="text-center">Prestación Anual</th>
+              <th class="text-center">Periodo</th>
+              <th class="text-center">Estado</th>
+              <th class="text-right">Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="resource-table-body">
+            <% @policies.each do |policy_item| %>
+              <tr>
+                <td>
+                  <div class="cell-title"><%= policy_item.name %></div>
+                  <% if policy_item.description.present? %>
+                    <div class="cell-subtitle"><%= policy_item.description.truncate(60) %></div>
+                  <% end %>
+                </td>
+                <td>
+                  <%= render BadgeComponent.new(type: :info) do %>
+                    <%= policy_item.policy_type.name %>
+                  <% end %>
+                </td>
+                <td class="text-center">
+                  <%= render BadgeComponent.new(type: policy_item.unlimited? ? :warning : :primary) do %>
+                    <%= policy_item.unlimited? ? 'Ilimitada' : 'Anual Básica' %>
+                  <% end %>
+                </td>
+                <td class="text-center">
+                  <% if policy_item.unlimited? %>
+                    <span class="text-gray-400">—</span>
+                  <% else %>
+                    <strong><%= policy_item.annual_entitlement.to_i %></strong>
+                    <span class="text-sm text-gray-600"><%= policy_item.policy_type.unit == 'days' ? 'días' : 'horas' %></span>
+                  <% end %>
+                </td>
+                <td class="text-center">
+                  <span class="text-sm text-gray-700">
+                    <%= case policy_item.period_type
+                        when 'jan_dec' then 'Ene-Dic'
+                        when 'feb_jan' then 'Feb-Ene'
+                        when 'apr_mar' then 'Abr-Mar'
+                        when 'employee_anniversary' then 'Aniversario'
+                        else policy_item.period_type.humanize
+                        end %>
+                  </span>
+                </td>
+                <td class="text-center">
+                  <%= render BadgeComponent.new(type: policy_item.active? ? :success : :neutral) do %>
+                    <%= policy_item.active? ? 'Activa' : 'Inactiva' %>
+                  <% end %>
+                </td>
+                <td>
+                  <div class="resource-actions-cell">
+                    <%= link_to admin_policy_path(policy_item), class: "resource-action-link action-view", title: "Ver detalles" do %>
+                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    <% end %>
+                    
+                    <% if policy(policy_item).update? %>
+                      <%= link_to edit_admin_policy_path(policy_item), class: "resource-action-link action-edit", title: "Editar" do %>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                      <% end %>
+                    <% end %>
+
+                    <% if policy(policy_item).toggle_status? %>
+                      <%= button_to toggle_status_admin_policy_path(policy_item),
+                        method: :patch,
+                        class: "resource-action-link action-toggle",
+                        title: policy_item.active? ? "Desactivar" : "Activar" do %>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <% if policy_item.active? %>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                          <% else %>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          <% end %>
+                        </svg>
+                      <% end %>
+                    <% end %>
+                    
+                    <% if policy(policy_item).destroy? %>
+                      <%= button_to admin_policy_path(policy_item), 
+                        method: :delete,
+                        data: { turbo_confirm: "¿Estás seguro de eliminar esta política?" },
+                        class: "resource-action-link action-delete",
+                        title: "Eliminar" do %>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <% if @policies.total_pages > 1 %>
+      <div class="mt-6">
+        <%= paginate @policies %>
+      </div>
+    <% end %>
+  <% else %>
+    <!-- Empty State -->
+    <div class="resource-table-card">
+      <div class="resource-empty-state">
+        <div class="resource-empty-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <h3 class="resource-empty-title">
+          <%= params[:policy_type_id].present? ? 'No hay políticas de este tipo' : 'No hay políticas creadas' %>
+        </h3>
+        <p class="resource-empty-description">
+          <%= params[:policy_type_id].present? ? 'Intenta con otro filtro o crea una nueva política.' : 'Comienza creando tu primera política de tiempo libre.' %>
+        </p>
+        <% if policy(Policy).create? %>
+          <%= render ButtonComponent.new(variant: :primary, size: :md, href: new_admin_policy_path) do %>
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Nueva Política
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
