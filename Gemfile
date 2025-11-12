@@ -35,7 +35,7 @@ gem "pundit", "~> 2.3"
 gem "kaminari", "~> 1.2"
 
 # View Components
-gem "view_component", "~> 3.0"
+gem "view_component", "~> 4.1"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
